@@ -9,7 +9,7 @@ from train import train, train_metadata
 import evaluate as ev
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from baselines import train_multi
+from baselines import run_multi
 from logger import _logger
 
 def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
@@ -110,4 +110,8 @@ train_params['ksamples'] = 1
 train_params['task'] = task
 train_params['batchsize'] = batchsize
 
-train_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
+#for seq reptile 
+train_params['K'] = 10
+train_params['alpha'] = 1e-4
+
+run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
