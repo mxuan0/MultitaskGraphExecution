@@ -1,3 +1,4 @@
+from copy import deepcopy
 import pickle as pkl
 
 import torch
@@ -7,6 +8,8 @@ from dataloaders import Distilled, collate_distilled
 import loss
 import initialisation as init
 from tqdm import tqdm
+from categorical_sample import _sample
+import collections
 # function to reduce bloat in train()
 def create_optimizer(logger, optimizer, parameters, lr, weight_decay, options=None):
     """
@@ -194,7 +197,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
     return model.state_dict(), val_loss
 
 def train_seq_reptile(logger, device, data_stream, val_stream, model, 
-                      train_params, loss_module_dict, recorder=None, task_list=['bf', 'bfs']):
+                      train_params, loss_module_dict, task_list=['bf', 'bfs']):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -247,66 +250,72 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
                                          )
-
+    prob = torch.tensor([1/len(task_list) for _ in range(len(task_list))])
     val_loss = 0
     warmup_steps_done = 0
-    nbatches = len(data_stream)
+    
     for epoch in tqdm(range(epochs)):
-        model.train()
         cur_loss = 0
-        for ith, batch in enumerate(data_stream):
+        
+        model_copy = deepcopy(model)
+        optimizer = create_optimizer(logger,
+                                train_params['optimizer'],
+                                model_copy.parameters(),
+                                train_params['alpha'],
+                                0
+                                )
+        
+        model_copy.train()
+        for _ in range(K):
             ## this is specific to the model & data we want to train, consider outsourcing to a function
             # the general scheme is:
             optimizer.zero_grad()
 
+            taskname = task_list[_sample(prob)]
+            batch = next(iter(data_stream[taskname]))
 
-            loss_module_list['bf'].train_loss(logger, device, model, batch)
-            loss_module_list['bfs'].train_loss(logger, device, model, batch)
-            loss = []
-            for loss_module in loss_module_list:
-                loss.append(loss_module.train_loss(logger, device, model, batch))
+            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch)
 
             # computing the gradient and applying it
-            sum([sum(loss[i]) for i in range(len(loss_module_list))]).backward()
+            sum(loss).backward()
             cur_loss += sum(loss).item()
 
             # clip gradients
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 8)
+            torch.nn.utils.clip_grad_norm_(model_copy.parameters(), 8)
 
             # warm_up
-            if warmup_steps_done < warm_up_steps:
-                new_lr = (lr /warm_up_steps) * (warmup_steps_done+1)
-                warmup_steps_done += 1
-                for param_group in optimizer.param_groups:
-                    param_group['lr'] = new_lr
+            # if warmup_steps_done < warm_up_steps:
+            #     new_lr = (lr /warm_up_steps) * (warmup_steps_done+1)
+            #     warmup_steps_done += 1
+            #     for param_group in optimizer.param_groups:
+            #         param_group['lr'] = new_lr
 
             optimizer.step()
+
+        with torch.no_grad():
+            for p, q in zip(model.parameters(), model_copy.parameters()):
+                p -= lr * (p - q)
 
         if scheduler is not None and warmup_steps_done >=warm_up_steps:
             scheduler.step(val_loss)
                 # scheduler.step(epoch + ith/nbatches)
 
-
-            # to measure the gradient norm per weight tensor
-            # for p in model.parameters():
-            #     param_norm = p.grad.data.norm(2).item()
-
-
         # eval -- potentially add ability to only do this every mth epoch
         model.eval()
-        val_loss = 0
-        for ith, batch in enumerate(val_stream):
-            with torch.no_grad():
-                val_loss += sum(loss_module.val_loss(logger, device, model, batch)).item()
+        val_loss = collections.defaultdict(int)
+        for taskname in task_list:
+            for ith, batch in enumerate(val_stream[taskname]):
+                with torch.no_grad():
+                    val_loss[taskname] += sum(loss_module_dict[taskname].val_loss(logger, device, model, batch)).item()
 
-        # log epoch
-        logger.info(
-            'Epoch {}; Train loss {:.4f}; Val loss {:.4f}'.format(
+        log_info = 'Epoch {}; Train loss {:.4f};'.format(
                 epoch,
-                cur_loss/nbatches,
-                val_loss
+                cur_loss/K
             )
-        )
+        for taskname in task_list:
+            log_info += ' Val loss %s %f;'% (taskname, val_loss[taskname])
+        # log epoch
+        logger.info(log_info)
 
         # decide whether to stop or not
         if early_stop:
