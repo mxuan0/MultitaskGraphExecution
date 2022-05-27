@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from baselines import run_multi
 from logger import _logger
-from get_streams import multi_stream
+from get_streams import multi_stream, seq_reptile_stream
 
 # def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
 #     gen_erdos_renyi(rand_generator, int(num_graph), int(num_node), datasavefp+"_", directed)
@@ -24,26 +24,29 @@ from get_streams import multi_stream
 #         True
 #     )
 
-rand_gen = torch.distributions.Uniform(0.0, 1.0)
-
 task = 'bfs bf'
+algo_names = ['bfs', 'bf']
+task_list = ['bfs', 'bf'] # or noalgo_?
 
 ngraph_train = '100'
 ngraph_val = '30'
 ngraph_test = ['100', '100']
-
-algo_names = ['bfs', 'bf']
-task_list = ['bfs', 'bf'] # or noalgo_?
 
 nnode = '20'
 nnode_test = ['20', '50']
 
 logger = _logger()
 
+# rand_gen = torch.distributions.Uniform(0.0, 1.0)
 # gen_erdos_renyi_algo_results(rand_gen, ngraph_train, nnode, algo_names, 'Data/train')
 # gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
 # for i in range(len(nnode_test)):
 #     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
+
+
+
+
+      
                     
 device = 'cpu'
 latentdim = 32
@@ -84,4 +87,8 @@ train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val,
                                                     nnode, logger, algo_names,
                                                     ngraph_test, nnode_test)
 
+t, v, test = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+                 ngraph_test, nnode_test)
+
+pdb.set_trace()
 run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
