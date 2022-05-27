@@ -48,7 +48,7 @@ class MultiAlgo(Dataset):
         first_algo = self.algos[0]
         with open(fp+f'_{first_algo}.pkl', 'rb') as f:
             steps_numpy = pkl.load(f)
-        pdb.set_trace()
+        #pdb.set_trace()
         steps = [(torch.tensor(t0), torch.tensor(t1), torch.tensor(t2)) for t0, t1, t2 in steps_numpy]
         adj, weights, _ = steps[-1]
         state, pred, term = zip(*(steps[:-1]))
