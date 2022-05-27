@@ -193,7 +193,8 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
 
     return model.state_dict(), val_loss
 
-def train_seq_reptile(logger, device, data_stream, val_stream, model, train_params, loss_module_dict, recorder=None):
+def train_seq_reptile(logger, device, data_stream, val_stream, model, 
+                      train_params, loss_module_dict, recorder=None, task_list=['bf', 'bfs']):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -219,7 +220,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model, train_para
     tempmin = train_params['tempmin']              # temp min
     k_samples = train_params['ksamples']           # positive int
     bsize = train_params['batchsize']           # positive int
-
+    K = train_params['K'] 
+    
     # priting the training params to the logger
     logger.info("Starting training with the following parameters:")
     logger.info(str(train_params))
