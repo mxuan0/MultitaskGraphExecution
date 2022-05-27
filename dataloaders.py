@@ -48,7 +48,7 @@ class MultiAlgo(Dataset):
         first_algo = self.algos[0]
         with open(fp+f'_{first_algo}.pkl', 'rb') as f:
             steps_numpy = pkl.load(f)
-        pdb.set_trace()
+        # pdb.set_trace()
         steps = [(torch.tensor(t0), torch.tensor(t1), torch.tensor(t2)) for t0, t1, t2 in steps_numpy]
         adj, weights, _ = steps[-1]
         state, pred, term = zip(*(steps[:-1]))
@@ -202,27 +202,28 @@ class ReachabilitySteps(Dataset):
 
     def __getitem__(self, idx):
         quo, rem = divmod(idx, self.n_files)
-        return self.data[rem][0][quo], torch.tensor([0]), self.data[rem][1][quo], \
-            torch.tensor([0]), self.data[rem][2][quo]
+        return self.data[rem][0][quo], self.data[rem][1][quo], self.data[rem][2][quo], \
+            torch.tensor([0]), self.data[rem][3][quo]
 
     def load_data(self, logger, fp):
         # loading breadth first search
         with open(fp+'_bfs.pkl', 'rb') as f:
             bfs_steps_numpy = pkl.load(f)
 
-        bfs_steps = [(torch.tensor(t0), torch.tensor(t1)) for t0, t1 in bfs_steps_numpy]
-        adj, _ = bfs_steps[-1]
-        bfs_state, bfs_term = zip(*(bfs_steps[:-1]))
+        bfs_steps = [(torch.tensor(t0), torch.tensor(t1), torch.tensor(t2)) for t0, t1, t2 in bfs_steps_numpy]
+        adj, weights, _ = bfs_steps[-1]
+        bfs_state, _, bfs_term = zip(*(bfs_steps[:-1]))
         bfs_state_tensor = torch.stack(bfs_state, dim=-1)
         term_tensor = torch.stack(bfs_term, dim=-1)
 
-        return adj, torch.tensor([0]), bfs_state_tensor, torch.tensor([0]), term_tensor
+        return adj, weights, bfs_state_tensor.unsqueeze(2), term_tensor
 
 def collate_reach(batch):
     adj = torch.stack([item[0] for item in batch], dim=0)
+    weights = torch.stack([item[1] for item in batch], dim=0)
     bfs_state = torch.stack([item[2] for item in batch], dim=0)
     term = torch.stack([item[4] for item in batch], dim=0)
-    return adj, torch.tensor([0]), bfs_state, torch.tensor([0]), term
+    return adj, weights, bfs_state, torch.tensor([0]), term
 
 class BFSBFSteps(Dataset):
     """

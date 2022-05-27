@@ -131,6 +131,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
         model.train()
         cur_loss = 0
         for ith, batch in enumerate(data_stream):
+            # print(ith)
             ## this is specific to the model & data we want to train, consider outsourcing to a function
             # the general scheme is:
             optimizer.zero_grad()
