@@ -30,7 +30,7 @@ def train_multi(model, logger, task_list, train_stream, val_stream, train_params
                 metrics
                 )
 
-def train_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu'):
+def train_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu'):
     algos = []
     for task in task_list:
         algos.append(
