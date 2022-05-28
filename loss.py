@@ -351,6 +351,7 @@ class LossAssembler_():
             s_offset += t.nodedim
             p_offset += t.preddim
             if t.tf:
+                #pdb.set_trace()
                 term_acc = 1-(torch.abs(last_step-utils.get_laststep(term.unsqueeze(1)))/utils.get_laststep(term.unsqueeze(1)))
                 test_acc_list.append(term_acc.sum())
 
@@ -711,6 +712,7 @@ class LossAssembler():
                 test_acc_list += pred_last_acc
             # new offsets
             s_offset += t.nodedim
+            pdb.set_trace()
             p_offset += t.preddim
             if t.tf:
                 term_acc = 1-(torch.abs(last_step-utils.get_laststep(term.unsqueeze(1)))/utils.get_laststep(term.unsqueeze(1)))
