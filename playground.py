@@ -86,14 +86,14 @@ train_params['tempmin'] = 1.0
 train_params['earlytol'] = 1e-4
 train_params['ksamples'] = 1
 train_params['task'] = task
-train_params['batchsize'] = 20
+train_params['batchsize'] = 50
 
 #for adaptive scheduling
 train_params['exponent'] = 1.0
 
 #for seq reptile 
-train_params['K'] = 5
-train_params['alpha'] = 5e-3
+train_params['K'] = 1
+train_params['alpha'] = 1e-3
 
 # train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
 #                                                     nnode, logger, algo_names,
