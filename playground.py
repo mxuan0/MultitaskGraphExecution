@@ -52,29 +52,29 @@ encdim = 32
 noisedim = 0
 metadata = info(logger, algo_names)
 
-model = arch.NeuralExecutor3(device,
-                              metadata['nodedim'],
-                              metadata['edgedim'],
-                              latentdim,
-                              encdim,
-                              pred=metadata['pred'],
-                              noise=noisedim
-                              )
-
-# model = arch.NeuralExecutor3_(device,
+# model = arch.NeuralExecutor3(device,
 #                               metadata['nodedim'],
 #                               metadata['edgedim'],
 #                               latentdim,
 #                               encdim,
-#                               algo_names,
 #                               pred=metadata['pred'],
 #                               noise=noisedim
 #                               )
 
+model = arch.NeuralExecutor3_(device,
+                              metadata['nodedim'],
+                              metadata['edgedim'],
+                              latentdim,
+                              encdim,
+                              algo_names,
+                              pred=metadata['pred'],
+                              noise=noisedim
+                              )
+
 train_params = {}
 train_params['optimizer'] = 'adam'
-train_params['epochs'] = 10
-train_params['lr'] = 0.0001
+train_params['epochs'] = 50
+train_params['lr'] = 5e-4
 train_params['warmup'] = 0
 train_params['earlystop'] = True
 train_params['patience'] = 2
@@ -83,25 +83,26 @@ train_params['schedpatience'] = 0
 train_params['tempinit'] = 1.0
 train_params['temprate'] = 1.0
 train_params['tempmin'] = 1.0
-train_params['earlytol'] = 10
+train_params['earlytol'] = 1e-4
 train_params['ksamples'] = 1
 train_params['task'] = task
-train_params['batchsize'] = 10
+train_params['batchsize'] = 20
 
 #for adaptive scheduling
 train_params['exponent'] = 1.0
 
 #for seq reptile 
-train_params['K'] = 10
+train_params['K'] = 5
 train_params['alpha'] = 5e-3
 
-train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
-                                                    nnode, logger, algo_names,
-                                                    ngraph_test, nnode_test)
+# train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
+#                                                     nnode, logger, algo_names,
+#                                                     ngraph_test, nnode_test, 
+#                                                     batchsize=train_params['batchsize'])
 
-run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
+# run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
 
-# train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
-#                  ngraph_test, nnode_test)
+train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+                 ngraph_test, nnode_test, batchsize=train_params['batchsize'])
 
-# run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)
+run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)

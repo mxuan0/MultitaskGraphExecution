@@ -256,7 +256,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
             taskname = task_list[categorical_sample(prob)]
             batch = next(iter(data_stream[taskname]))
-            pdb.set_trace()
+            #pdb.set_trace()
             loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
             # computing the gradient and applying it
