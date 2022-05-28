@@ -66,7 +66,7 @@ model = arch.NeuralExecutor3_(device,
 train_params = {}
 train_params['optimizer'] = 'adam'
 train_params['epochs'] = 10
-train_params['lr'] = 0.0001
+train_params['lr'] = 0.01
 train_params['warmup'] = 0
 train_params['earlystop'] = True
 train_params['patience'] = 1
@@ -75,14 +75,14 @@ train_params['schedpatience'] = 0
 train_params['tempinit'] = 1.0
 train_params['temprate'] = 1.0
 train_params['tempmin'] = 1.0
-train_params['earlytol'] = 5e-6
+train_params['earlytol'] = 5e-5
 train_params['ksamples'] = 1
 train_params['task'] = task
 train_params['batchsize'] = 10
 
 #for seq reptile 
 train_params['K'] = 10
-train_params['alpha'] = 1e-4
+train_params['alpha'] = 5e-3
 
 # train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
 #                                                     nnode, logger, algo_names,

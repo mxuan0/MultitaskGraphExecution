@@ -188,3 +188,24 @@ def evaluate(logger, device, test_stream, model, loss_mod, metrics):
                 logger.info(metric+": {}".format(mean_test_acc[ith]))
 
     return
+
+def evaluate_single_algo(logger, device, test_stream, model, loss_mod_dict, metrics):
+    """
+    test_streams: list of datastreams, they expected to be an IterableDataset]
+    batch_size: how many graphs to accumulate to a batch"""
+    with torch.no_grad():
+        for algo in test_stream:
+            logger.info(algo)
+            for stream in test_stream[algo]:
+                logger.info(stream.dataset.name)
+                ngraphs_total = len(stream.dataset)
+                total_test_acc = [0 for _ in metrics[algo]]
+                for batch in stream:
+                    batch_test_acc = loss_mod_dict[algo].test_loss(logger, device, model, batch, algo)
+                    total_test_acc = [cum + btl for cum, btl in zip(total_test_acc, batch_test_acc)]
+                mean_test_acc = [metric/ngraphs_total for metric in total_test_acc]
+
+                for ith, metric in enumerate(metrics[algo]):
+                    logger.info(metric+": {}".format(mean_test_acc[ith]))
+
+    return

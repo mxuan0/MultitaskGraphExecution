@@ -194,22 +194,11 @@ class LossAssembler_():
     @torch.no_grad()
     def val_loss(self, logger, device, model, batch, algo):
         batch_loss = self.train_loss(logger, device, model, batch, algo)
-        # val_loss = []
-        # offset = 0
-        # for t in self.algos:
-        #     for _ in range(t.nodedim):
-        #         offset += 1
-        #     for _ in range(t.preddim):
-        #         val_loss.append(batch_loss[offset])
-        #         offset += 1
-
-        # if len(val_loss) == 0:
-        #     val_loss = batch_loss
 
         return batch_loss
 
     @torch.no_grad()
-    def test_loss(self, logger, device, model, batch):
+    def test_loss(self, logger, device, model, batch, algo):
         adj, weights, state, pred, term = batch
 
         # bring all the tensors to the device
@@ -224,7 +213,7 @@ class LossAssembler_():
         nnodes = adj.shape[1]
         max_steps = (nnodes)
         ndim= len(model.ndim) if isinstance(model.ndim, list) else 1
-        h = torch.zeros((bsize, nnodes, model.hdim*ndim), device=device)
+        h = torch.zeros((bsize, nnodes, model.hdim), device=device)
         n_steps = 0
         pos_w = torch.mean((1-term).sum(dim=-1))
 
@@ -241,7 +230,7 @@ class LossAssembler_():
 
         # running the model
         for i in range(max_steps):
-            y, p, tau, h = model(model_in, h, adj, weights)
+            y, p, tau, h = model(model_in, h, adj, weights, algo)
 
             # ensure even if total preddim is 1 that p has 4 dimensions
             if p is not None and p.ndim < 4:
