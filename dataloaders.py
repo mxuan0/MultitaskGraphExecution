@@ -156,7 +156,9 @@ class BFSteps(Dataset):
         adj, weights,_ = bf_steps[-1]
         bf_state, pred, bf_term = zip(*(bf_steps[:-1]))
         bf_state_tensor = torch.stack(bf_state, dim=-1)
-        pred_tensor = torch.stack(pred[1:], dim=-1)
+        if bf_state_tensor.ndim < 4:
+            bf_state_tensor = bf_state_tensor.unsqueeze(2)
+        pred_tensor = torch.stack(pred[1:], dim=-1).unsqueeze(-2)
         bf_term_tensor = torch.stack(bf_term, dim=-1)
 
         return adj, weights, bf_state_tensor, pred_tensor, bf_term_tensor
@@ -212,6 +214,7 @@ class ReachabilitySteps(Dataset):
         adj, weights, _ = bfs_steps[-1]
         bfs_state, _, bfs_term = zip(*(bfs_steps[:-1]))
         bfs_state_tensor = torch.stack(bfs_state, dim=-1)
+
         term_tensor = torch.stack(bfs_term, dim=-1)
 
         return adj, weights, bfs_state_tensor.unsqueeze(2), term_tensor

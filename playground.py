@@ -9,7 +9,7 @@ from train import train, train_metadata
 import evaluate as ev
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from baselines import run_multi
+from baselines import run_multi, run_seq_reptile
 from logger import _logger
 from get_streams import multi_stream, seq_reptile_stream
 
@@ -53,11 +53,12 @@ latentdim = 32
 encdim = 32 
 noisedim = 0
 metadata = info(logger, algo_names)
-model = arch.NeuralExecutor3(device,
+model = arch.NeuralExecutor3_(device,
                               metadata['nodedim'],
                               metadata['edgedim'],
                               latentdim,
                               encdim,
+                              algo_names,
                               pred=metadata['pred'],
                               noise=noisedim
                               )
@@ -83,12 +84,13 @@ train_params['batchsize'] = 10
 train_params['K'] = 10
 train_params['alpha'] = 1e-4
 
-train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
-                                                    nnode, logger, algo_names,
-                                                    ngraph_test, nnode_test)
+# train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
+#                                                     nnode, logger, algo_names,
+#                                                     ngraph_test, nnode_test)
 
-t, v, test = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+# run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
+
+train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
                  ngraph_test, nnode_test)
 
-pdb.set_trace()
-run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
+run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)

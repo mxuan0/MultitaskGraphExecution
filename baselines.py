@@ -1,4 +1,4 @@
-from loss import LossAssembler, create_loss_class
+from loss import LossAssembler, LossAssembler_, create_loss_class
 from train import train, train_seq_reptile
 import evaluate as ev
 
@@ -35,7 +35,7 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_pa
     loss_module_dict = {}
     for task in task_list:
         algo = [create_loss_class(task, {'hidekeys':True})]
-        loss_module_dict[task] = LossAssembler(device, logger, algo, {'ksamples':1})
+        loss_module_dict[task] = LossAssembler_(device, logger, algo, {'ksamples':1})
 
     recorder = None
     # creating the training parameter dict

@@ -6,6 +6,367 @@ import torch.nn.functional as fn
 
 import loss_utils as utils
 
+class LossAssembler_():
+    def __init__(
+            self,
+            device,
+            logger,
+            algos,
+            opt
+    ):
+        self.dev = device
+        self.log = logger
+
+        self.algos = algos #now [bf, bfs ] -> [bf] /[bfs]
+
+        self.k = opt['ksamples']
+
+        # compute number of loss terms
+        self.nloss_terms = sum([t.nodedim+t.preddim for t in self.algos])
+
+    def train_loss(self, logger, device, model, batch, algo):
+        adj, weights, state, pred, term = batch
+
+        # bring all the tensors to the device
+        adj = adj.to(device)
+        weights = weights.to(device)
+        state = state.to(device)
+        pred = pred.to(device)
+        term = term.to(device)
+        
+        # k-samples of the trajectory
+        k = self.k
+        og_bsize = adj.shape[0]
+        if abs(self.k) > 1:
+            adj_shape = adj.shape
+            adj = adj.unsqueeze(1).expand(-1, abs(k), -1, -1).reshape(-1, *adj_shape[1:])
+            weights_shape = weights.shape
+            weights = weights.unsqueeze(1).expand(-1, abs(k), -1, -1).reshape(-1, *weights_shape[1:])
+            state_shape = state.shape
+            state = state.unsqueeze(1).expand(
+                -1, abs(k),*state_shape[1:]).reshape(-1, *state_shape[1:])
+            pred_shape = pred.shape
+            pred = pred.unsqueeze(1).expand(-1, abs(k), -1,-1, -1).reshape(-1, *pred_shape[1:])
+            term_shape = term.shape
+            term = term.unsqueeze(1).expand(-1, abs(k), -1).reshape(-1, *term_shape[1:])
+
+        # batch info + initialisation
+        bsize = adj.shape[0]
+        nnodes = adj.shape[1]
+        max_steps = (nnodes)
+        ndim= len(model.ndim) if isinstance(model.ndim, list) else 1
+        h = torch.zeros((bsize, nnodes, model.hdim), device=device)
+        n_steps = torch.zeros((bsize,), device=device)
+        # pos_w = torch.log(torch.mean((1-term).sum(dim=-1)))
+        pos_w = torch.mean((1-term).sum(dim=-1))
+        batch_loss = [torch.zeros((bsize,1), device=device) for _ in range(self.nloss_terms)]
+        batch_term_loss = 0
+
+        # model input
+        model_in = state[:,:,:,0].clone()
+        #pdb.set_trace()
+        for i in range(max_steps):
+            y, p, tau, h = model(model_in, h, adj, weights, algo)
+
+            # ensure even if total preddim is 1 that p has 4 dimensions
+            if p is not None and p.ndim < 4:
+                p = p.unsqueeze(-1)
+
+            s_offset = 0
+            p_offset = 0
+            mask = (1-term[:,i]).bool().long()
+
+            # termination loss (we assume this is shared)
+            batch_term_loss += utils.term_loss(
+                tau,
+                term[:,i+1],
+                pos_w,
+                mask
+            )
+
+            for t in self.algos:
+                # selecting the dimensions for this algo
+                y_algo = y[:,:,s_offset:s_offset+t.nodedim].clone()
+
+                # mask computation
+                node_mask, pred_mask = t.mask_fn(
+                    device,
+                    model_in[:,:,s_offset:s_offset+t.nodedim],
+                    y_algo,
+                    state[:,:,s_offset:s_offset+t.nodedim,i],
+                    state[:,:,s_offset:s_offset+t.nodedim,i+1],
+                    pred[:,:,p_offset:p_offset+t.preddim,i] if t.preddim > 0 else None
+                )
+                term_mask = mask if t.tf else mask * term[:,i+1]
+
+                # state loss computation
+                batch_loss_state_algo = t.state_loss_fn(
+                    device,
+                    y_algo,
+                    state[:,:,s_offset:s_offset+t.nodedim,i],
+                    state[:,:,s_offset:s_offset+t.nodedim,i+1],
+                    node_mask,
+                    term_mask
+                )
+
+                # pred loss computation
+                if t.preddim > 0:
+                    p_algo = p[:,:,:,p_offset:p_offset+t.preddim]
+                    batch_loss_pred_algo = t.pred_loss_fn(
+                        device,
+                        p_algo,
+                        pred[:,:,p_offset:p_offset+t.preddim,i],
+                        pred_mask,
+                        term_mask
+                    )
+
+                # model_in computation
+                if t.tf:
+                    algo_in = state[:,:, s_offset:s_offset+t.nodedim, i+1]
+                else:
+                    algo_in = t.transition_fn(
+                        device,
+                        model_in[:,:,s_offset:s_offset+t.nodedim].clone(),
+                        y_algo.clone()
+                    )
+                model_in[:,:,s_offset:s_offset+t.nodedim] = algo_in.clone()
+
+
+                l_offset = s_offset+p_offset
+                s_offset += t.nodedim
+                p_offset += t.preddim
+
+                # reporting the batch loss
+                batch_loss[l_offset:l_offset+t.nodedim] = list(
+                    map(
+                        sum,
+                        zip(batch_loss_state_algo,
+                            batch_loss[l_offset:l_offset+t.nodedim])
+                    )
+                )
+                l_offset += t.nodedim
+                if t.preddim > 0:
+                    batch_loss[l_offset:l_offset+t.preddim] = list(
+                        map(
+                            sum,
+                            zip(batch_loss_pred_algo,
+                                batch_loss[l_offset:l_offset+t.preddim])
+                        )
+                    )
+
+                # compute number_steps
+                l_offset = s_offset+p_offset
+                alg_nloss_terms = t.nodedim+t.preddim
+            n_steps += term_mask
+
+        # pick the k-samples
+        if abs(self.k) > 1:
+            batch_loss = utils.max_of_k_samples(
+                list(batch_loss),
+                og_bsize,
+                k
+            )
+        # average across batch
+        offset = 0
+        for t in self.algos:
+            for _ in range(t.preddim+t.nodedim):
+                if t.tf:
+                    batch_loss[offset] = torch.mean(batch_loss[offset]/n_steps)
+                else:
+                    batch_loss[offset] = torch.mean(batch_loss[offset])
+                offset += 1
+
+        loss = []
+        offset = 0
+        for t in self.algos:
+            task_loss = 0
+            for _ in range(t.preddim+t.nodedim):
+                task_loss += batch_loss[offset]
+                offset +=1
+            loss.append(task_loss)
+
+        batch_term_loss = torch.mean(batch_term_loss)
+        loss.append(batch_term_loss)
+
+        return loss
+
+
+    @torch.no_grad()
+    def val_loss(self, logger, device, model, batch, algo):
+        batch_loss = self.train_loss(logger, device, model, batch, algo)
+        # val_loss = []
+        # offset = 0
+        # for t in self.algos:
+        #     for _ in range(t.nodedim):
+        #         offset += 1
+        #     for _ in range(t.preddim):
+        #         val_loss.append(batch_loss[offset])
+        #         offset += 1
+
+        # if len(val_loss) == 0:
+        #     val_loss = batch_loss
+
+        return batch_loss
+
+    @torch.no_grad()
+    def test_loss(self, logger, device, model, batch):
+        adj, weights, state, pred, term = batch
+
+        # bring all the tensors to the device
+        adj = adj.to(device)
+        weights = weights.to(device)
+        state = state.to(device)
+        pred = pred.to(device)
+        term = term.to(device)
+
+        # batch info + initialisation
+        bsize = adj.shape[0]
+        nnodes = adj.shape[1]
+        max_steps = (nnodes)
+        ndim= len(model.ndim) if isinstance(model.ndim, list) else 1
+        h = torch.zeros((bsize, nnodes, model.hdim*ndim), device=device)
+        n_steps = 0
+        pos_w = torch.mean((1-term).sum(dim=-1))
+
+        # recording outputs
+        model_steps = torch.zeros(state.shape, device=device)
+        model_p_out = torch.zeros((bsize,nnodes,nnodes,pred.shape[2],term.shape[1]),
+                                  device=device) if pred.ndim > 2 else None
+        model_tau = torch.zeros(term.shape, device=device)
+        pred_mask = torch.zeros(pred.shape, device=device) if pred.ndim > 2 else None
+        node_mask = torch.zeros(state.shape, device=device)
+
+        # model input
+        model_in = state[:,:,:,0]
+
+        # running the model
+        for i in range(max_steps):
+            y, p, tau, h = model(model_in, h, adj, weights)
+
+            # ensure even if total preddim is 1 that p has 4 dimensions
+            if p is not None and p.ndim < 4:
+                p = p.unsqueeze(-1)
+
+            s_offset = 0
+            p_offset = 0
+            mask = (1-term[:,i]).bool().long()
+            n_steps += 1
+
+            # recording tau
+            model_tau[:,i] = tau.squeeze()
+
+            for t in self.algos:
+                # selecting the dimensions for this algo
+                y_algo = y[:,:,s_offset:s_offset+t.nodedim]
+
+                # compute the masks
+                step_node_mask, step_pred_mask = t.mask_fn(
+                    device,
+                    model_in[:,:,s_offset:s_offset+t.nodedim],
+                    y_algo,
+                    state[:,:,s_offset:s_offset+t.nodedim,i],
+                    state[:,:,s_offset:s_offset+t.nodedim,i+1],
+                    pred[:,:,p_offset:p_offset+t.preddim,i] if t.preddim > 0 else None
+                )
+                node_mask[:,:,s_offset:s_offset+t.nodedim,i] = step_node_mask
+
+                if t.preddim > 0:
+                    pred_mask[:,:,p_offset:p_offset+t.preddim,i] = step_pred_mask
+
+                # next state
+                algo_in = t.eval_transition_fn(
+                    device,
+                    model_in[:,:,s_offset:s_offset+t.nodedim],
+                    y_algo
+                )
+                # import pdb; pdb.set_trace()
+                model_in[:, :, s_offset:s_offset+t.nodedim] = algo_in
+                model_steps[:,:, s_offset:s_offset+t.nodedim, i] = algo_in
+                if t.preddim > 0:
+                    p_algo = p[:,:,:,p_offset:p_offset+t.preddim]
+                    model_p_out[:,:,:,p_offset:p_offset+t.preddim, i] = p_algo
+
+                # compute number_steps
+                l_offset = s_offset+p_offset
+                alg_nloss_terms = t.nodedim+t.preddim
+
+                # increase offset
+                s_offset += t.nodedim
+                p_offset += t.preddim
+
+
+        tf = False
+        for t in self.algos:
+            tf = tf or t.tf
+
+        if not tf:
+            model_tau = term
+
+        # sequence length calculations
+        last_step = utils.get_laststep(model_tau[:,:max_steps].unsqueeze(1))
+        true_last_step = torch.sum(1-term[:,1:max_steps+1],dim=-1).long().squeeze()
+        term_mask = (torch.cumsum(
+            torch.cumsum(
+                torch.sigmoid(
+                    model_tau[:,:max_steps]
+                )>0.5,
+                dim=-1
+            ),
+            dim=-1
+        ) <= 1).long().squeeze()
+        term_mask = 1-term[:,:max_steps]
+
+        # collecting test score
+        test_acc_list = []
+
+        # evaluate model
+        s_offset = 0
+        p_offset = 0
+        for t in self.algos:
+            if t.tf:
+                state_mean_acc = t.state_mean_acc_fn(
+                    device,
+                    model_steps[:,:, s_offset:s_offset+t.nodedim,:n_steps],
+                    state[:,:, s_offset:s_offset+t.nodedim,1:n_steps+1],
+                    node_mask[:,:, s_offset:s_offset+t.nodedim,:n_steps],
+                    term_mask
+                )
+                test_acc_list += state_mean_acc
+            state_last_acc = t.state_last_acc_fn(
+                device,
+                model_steps[:,:, s_offset:s_offset+t.nodedim,:n_steps],
+                state[:,:, s_offset:s_offset+t.nodedim, 1:n_steps+1],
+                node_mask[:,:, s_offset:s_offset+t.nodedim,:n_steps],
+                last_step #  if t.tf else true_last_step
+            )
+            test_acc_list += state_last_acc
+            if t.preddim > 0:
+                if t.tf:
+                    pred_mean_acc = t.pred_mean_acc_fn(
+                        device,
+                        model_p_out[:,:,:,p_offset:p_offset+t.preddim,:n_steps],
+                        pred[:,:,p_offset:p_offset+t.preddim,:n_steps],
+                        pred_mask[:,:,p_offset:p_offset+t.preddim,:n_steps],
+                        term_mask
+                    )
+                    test_acc_list += pred_mean_acc
+                pred_last_acc = t.pred_last_acc_fn(
+                    device,
+                    model_p_out[:,:,:,p_offset:p_offset+t.preddim,:n_steps],
+                    pred[:,:, p_offset:p_offset+t.preddim, :n_steps],
+                    pred_mask[:,:, p_offset:p_offset+t.preddim,:n_steps],
+                    last_step  # if t.tf else true_last_step
+                )
+                test_acc_list += pred_last_acc
+            # new offsets
+            s_offset += t.nodedim
+            p_offset += t.preddim
+            if t.tf:
+                term_acc = 1-(torch.abs(last_step-utils.get_laststep(term.unsqueeze(1)))/utils.get_laststep(term.unsqueeze(1)))
+                test_acc_list.append(term_acc.sum())
+
+        return test_acc_list
+
 ### Loss class to construct the loss function for any arbitrary list of algos
 class LossAssembler():
     def __init__(

@@ -274,7 +274,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             taskname = task_list[_sample(prob)]
             batch = next(iter(data_stream[taskname]))
 
-            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch)
+            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
             # computing the gradient and applying it
             sum(loss).backward()
@@ -302,11 +302,11 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         # eval -- potentially add ability to only do this every mth epoch
         model.eval()
-        val_loss = collections.defaultdict(int)
+        val_loss = collections.defaultdict(float)
         for taskname in task_list:
             for ith, batch in enumerate(val_stream[taskname]):
                 with torch.no_grad():
-                    val_loss[taskname] += sum(loss_module_dict[taskname].val_loss(logger, device, model, batch)).item()
+                    val_loss[taskname] += sum(loss_module_dict[taskname].val_loss(logger, device, model, batch, taskname)).item()
 
         log_info = 'Epoch {}; Train loss {:.4f};'.format(
                 epoch,
@@ -317,9 +317,12 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         # log epoch
         logger.info(log_info)
 
+        total_val_loss = 0
+        for k in val_loss:
+            total_val_loss += val_loss[k]
         # decide whether to stop or not
         if early_stop:
-            stop = early_stop_meter.update_meter(val_loss, model.state_dict())
+            stop = early_stop_meter.update_meter(total_val_loss, model.state_dict())
             if stop:
                 logger.info("Early stopping criterion satisfied")
                 if early_stop_meter.model_state is not None:
