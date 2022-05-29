@@ -247,22 +247,30 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['alpha'],
                                 0
                                 )
-        
+        temp_list = ['bfs', 'bfs', 'bf', 'bf', 'bf']
         model_copy.train()
-        for _ in range(K):
+        for i in range(K):
             ## this is specific to the model & data we want to train, consider outsourcing to a function
             # the general scheme is:
             optimizer.zero_grad()
 
-            taskname = task_list[categorical_sample(prob)]
-            batch = next(iter(data_stream[taskname]))
-            #pdb.set_trace()
-            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
+            #taskname = task_list[categorical_sample(prob)]
+            taskname = temp_list[i]
+            total = 0
+            for task in task_list:
+                batch = next(iter(data_stream[task]))
+                loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
+                total += sum(loss)
+            total.backward()
+            cur_loss += total
+            # batch = next(iter(data_stream[taskname]))
+            # #pdb.set_trace()
+            # loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
-            # computing the gradient and applying it
-            sum(loss).backward()
-            cur_loss += sum(loss).item()
-
+            # #computing the gradient and applying it
+            # sum(loss).backward()
+            # cur_loss += sum(loss).item()
+            
             # clip gradients
             torch.nn.utils.clip_grad_norm_(model_copy.parameters(), 8)
 
@@ -278,6 +286,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
                 p -= lr * (p - q)
+                #p = q
 
         # eval -- potentially add ability to only do this every mth epoch
         model.eval()
