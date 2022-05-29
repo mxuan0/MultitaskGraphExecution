@@ -263,7 +263,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['optimizer'],
                                 model_copy.parameters(),
                                 train_params['alpha'],
-                                0
+                                train_params['weightdecay']
                                 )
         
         model_copy.train()
