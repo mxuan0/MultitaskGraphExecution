@@ -210,7 +210,6 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     """
 
     # training parameters that are needed
-    algo_name = train_params['task']               # string
     epochs = train_params['epochs']                # positive int
     lr = train_params['lr']                        # positive float
     warm_up_steps = train_params['warmup']         # positive int
@@ -221,7 +220,6 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     temp = train_params['tempinit']                # temp init
     temprate = train_params['temprate']            # temp rate
     tempmin = train_params['tempmin']              # temp min
-    k_samples = train_params['ksamples']           # positive int
     bsize = train_params['batchsize']           # positive int
     K = train_params['K'] 
     
@@ -245,7 +243,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['optimizer'],
                                 model_copy.parameters(),
                                 train_params['alpha'],
-                                0
+                                train_params['weightdecay']
                                 )
         temp_list = ['bfs', 'bfs', 'bf', 'bf', 'bf']
         model_copy.train()
