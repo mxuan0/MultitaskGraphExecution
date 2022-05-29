@@ -555,3 +555,11 @@
 2022-05-28 22:43:14,932 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.3004058599472046
 2022-05-28 22:43:14,933 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.043590907007455826
 2022-05-28 22:43:14,933 [MainThread  ] [INFO ] Termination accuracy: 0.6351189613342285
+2022-05-29 14:12:32,897 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-29 14:12:32,900 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 1, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-05, 'ksamples': 1, 'task': 'bf', 'batchsize': 10, 'K': 10, 'alpha': 0.0001}
+2022-05-29 14:13:00,549 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-29 14:13:00,550 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 1, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-05, 'ksamples': 1, 'task': 'bf', 'batchsize': 10, 'K': 10, 'alpha': 0.0001}
+2022-05-29 14:15:10,504 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-29 14:15:10,504 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 1, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-05, 'ksamples': 1, 'task': 'bf', 'batchsize': 10, 'K': 10, 'alpha': 0.0001}
+2022-05-29 14:15:17,419 [MainThread  ] [INFO ] Epoch 0; Train loss 50.0289; Val loss bf 239.974460;
+2022-05-29 14:15:23,793 [MainThread  ] [INFO ] Epoch 1; Train loss 19.7208; Val loss bf 122.073797;

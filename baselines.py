@@ -32,7 +32,7 @@ def run_multi(model, logger, task_list, train_stream,
                 )
 
 def run_seq_reptile(model, logger, task_list, train_stream, val_stream, 
-                    train_params, test_stream, test_datafp, device='cpu'):
+                    train_params, test_stream, test_datafp, writer, device='cpu'):
     
     loss_module_dict = {}
     for task in task_list:
@@ -41,13 +41,14 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream,
 
     recorder = None
     # creating the training parameter dict
-    model_state, val_loss = train_seq_reptile(logger,
+    model_state, val_loss, writer = train_seq_reptile(logger,
                                     device,
                                     train_stream,
                                     val_stream,
                                     model,
                                     train_params,
                                     loss_module_dict,
+                                    writer,
                                     task_list
                                     )
 
@@ -61,3 +62,5 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream,
                 metrics,
                 test_datafp
                 )
+
+    return writer

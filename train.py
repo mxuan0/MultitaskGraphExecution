@@ -197,7 +197,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
     return model.state_dict(), val_loss
 
 def train_seq_reptile(logger, device, data_stream, val_stream, model, 
-                      train_params, loss_module_dict, task_list=['bf', 'bfs']):
+                      train_params, loss_module_dict, writer, task_list=['bf', 'bfs']):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -317,6 +317,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                 epoch,
                 cur_loss/K
             ))
+        writer.add_scalar("Loss/train", cur_loss/K, epoch)
         for taskname in task_list:
             log_info += ' Val loss %s %f;'% (taskname, val_loss[taskname])
             print(' Val loss %s %f;'% (taskname, val_loss[taskname]))
@@ -338,7 +339,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         temp = max(temp*temprate, tempmin)
         model.temp = temp
 
-    return model.state_dict(), val_loss
+    return model.state_dict(), val_loss, writer
 
 def train_batch_sample(logger, device, data_stream, val_stream, model, train_params, loss_module_list, recorder=None):
     """
