@@ -231,7 +231,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
                                          )
-    prob = torch.tensor([1/len(task_list) for _ in range(len(task_list))])
+    logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
     val_loss = 0
     warmup_steps_done = 0
     
@@ -252,22 +252,22 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             # the general scheme is:
             optimizer.zero_grad()
 
-            taskname = task_list[categorical_sample(prob)]
-            # taskname = temp_list[i]
-            # total = 0
-            # for task in task_list:
-            #     batch = next(iter(data_stream[task]))
-            #     loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
-            #     total += sum(loss)
-            # total.backward()
-            # cur_loss += total
-            batch = next(iter(data_stream[taskname]))
+            taskname = task_list[categorical_sample(logit)]
+            taskname = temp_list[i]
+            total = 0
+            for task in task_list:
+                batch = next(iter(data_stream[task]))
+                loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
+                total += sum(loss)
+            total.backward()
+            cur_loss += total
+            # batch = next(iter(data_stream[taskname]))
 
-            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
+            # loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
-            #computing the gradient and applying it
-            sum(loss).backward()
-            cur_loss += sum(loss).item()
+            # #computing the gradient and applying it
+            # sum(loss).backward()
+            # cur_loss += sum(loss).item()
             
             # clip gradients
             torch.nn.utils.clip_grad_norm_(model_copy.parameters(), 8)

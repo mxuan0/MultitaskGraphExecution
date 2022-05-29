@@ -1,8 +1,9 @@
 from torch.distributions.categorical import Categorical
 import torch
 
-def categorical_sample(p:torch.Tensor):
-    dist = Categorical(p)
+def categorical_sample(logit:torch.Tensor):
+    prob = logit / logit.sum()
+    dist = Categorical(prob)
     return dist.sample()
 
 def batch_sample(batches:list, sizes:torch.Tensor, task_list:list):

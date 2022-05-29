@@ -1,6 +1,6 @@
 import dataloaders as dl
 from torch.utils.data import DataLoader, RandomSampler
-import collections
+import collections, pdb
 
 def multi_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
                  ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10):
@@ -44,15 +44,16 @@ algo_to_collate = {
     'bf' : dl.collate_bf
 }
 
-def seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+def seq_reptile_stream(ngraph_train:list, ngraph_val, nnode, logger, algo_names,
                  ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10):
-    train_datafp = 'Data/train_%s%s_%s' % (graph, ngraph_train, nnode)
+    train_datafp = ['Data/train_%s%s_%s' % (graph, ngraph, nnode) for ngraph in ngraph_train]
     val_datafp = 'Data/val_%s%s_%s' % (graph, ngraph_val, nnode)
     test_datafp = ['Data/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
 
     train_stream = {}
-    for algo in algo_names:
-        ds = algo_to_dataset[algo](logger,train_datafp.split(' '),"Train")
+    for i in range(len(algo_names)):
+        algo = algo_names[i]
+        ds = algo_to_dataset[algo](logger,train_datafp[i].split(' '),"Train")
         sampler = RandomSampler(ds, replacement=True)
         train_stream[algo] = DataLoader(ds,
                                     #shuffle = True,
@@ -61,6 +62,7 @@ def seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
                                     collate_fn = algo_to_collate[algo],
                                     drop_last = False
                                     )
+        #pdb.set_trace()
     val_stream = {}
     for algo in algo_names:
         ds = algo_to_dataset[algo](logger,val_datafp.split(' '),"Validation")

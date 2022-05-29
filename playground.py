@@ -29,7 +29,7 @@ task = 'bfs bf'
 algo_names = ['bfs', 'bf']
 task_list = ['bfs', 'bf'] # or noalgo_?
 
-ngraph_train = '2000'
+ngraph_train = ['100','2000']
 ngraph_val = '100'
 ngraph_test = ['200', '200']
 
@@ -52,7 +52,7 @@ noisedim = 0
 train_params = {}
 train_params['optimizer'] = 'adam'
 train_params['epochs'] = 50
-train_params['lr'] = 1e-4
+train_params['lr'] = 1
 train_params['warmup'] = 0
 train_params['earlystop'] = False
 train_params['patience'] = 2
@@ -70,42 +70,42 @@ train_params['batchsize'] = 50
 train_params['exponent'] = 1.0
 
 #for seq reptile 
-train_params['K'] = 5
+train_params['K'] = 1
 train_params['alpha'] = 1e-4
 
 
-logger = _logger(logfile='Data/multi.log')
-metadata = info(logger, algo_names)
-model = arch.NeuralExecutor3(device,
-                              metadata['nodedim'],
-                              metadata['edgedim'],
-                              latentdim,
-                              encdim,
-                              pred=metadata['pred'],
-                              noise=noisedim
-                              )
-
-train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
-                                                    nnode, logger, algo_names,
-                                                    ngraph_test, nnode_test, 
-                                                    batchsize=train_params['batchsize'])
-
-run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
-
-
-# logger = _logger(logfile='Data/seq_reptile.log')
+# logger = _logger(logfile='Data/multi.log')
 # metadata = info(logger, algo_names)
-# model = arch.NeuralExecutor3_(device,
+# model = arch.NeuralExecutor3(device,
 #                               metadata['nodedim'],
 #                               metadata['edgedim'],
 #                               latentdim,
 #                               encdim,
-#                               algo_names,
 #                               pred=metadata['pred'],
 #                               noise=noisedim
 #                               )
 
-# train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
-#                  ngraph_test, nnode_test, batchsize=train_params['batchsize'])
+# train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
+#                                                     nnode, logger, algo_names,
+#                                                     ngraph_test, nnode_test, 
+#                                                     batchsize=train_params['batchsize'])
 
-# run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)
+# run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
+
+
+logger = _logger(logfile='Data/seq_reptile.log')
+metadata = info(logger, algo_names)
+model = arch.NeuralExecutor3_(device,
+                              metadata['nodedim'],
+                              metadata['edgedim'],
+                              latentdim,
+                              encdim,
+                              algo_names,
+                              pred=metadata['pred'],
+                              noise=noisedim
+                              )
+
+train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+                 ngraph_test, nnode_test, batchsize=train_params['batchsize'])
+
+run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)
