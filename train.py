@@ -321,6 +321,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         for taskname in task_list:
             log_info += ' Val loss %s %f;'% (taskname, val_loss[taskname])
             print(' Val loss %s %f;'% (taskname, val_loss[taskname]))
+            writer.add_scalar("Loss/val", val_loss[taskname], epoch)
         # log epoch
         logger.info(log_info)
 
