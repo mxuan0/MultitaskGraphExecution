@@ -84,4 +84,4 @@ def seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
                                             drop_last = False
                                             )
                             )
-    return train_stream, val_stream, test_stream
+    return train_stream, val_stream, test_stream, test_datafp

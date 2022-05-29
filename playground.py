@@ -29,11 +29,12 @@ algo_names = ['bfs', 'bf']
 task_list = ['bfs', 'bf'] # or noalgo_?
 
 ngraph_train = '100'
-ngraph_val = '30'
-ngraph_test = ['100', '100']
+ngraph_val = '100'
+# ngraph_test = ['100', '100']
+ngraph_test = ['200', '200', '200']
 
 nnode = '20'
-nnode_test = ['20', '50']
+nnode_test = ['20', '50', '100']
 
 logger = _logger()
 
@@ -90,7 +91,7 @@ train_params['alpha'] = 5e-3
 
 # run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
 
-train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+train_stream, val_stream, test_stream, test_datafp = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
                  ngraph_test, nnode_test)
 
-run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)
+run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream, test_datafp)

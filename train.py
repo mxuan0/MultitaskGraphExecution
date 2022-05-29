@@ -26,7 +26,7 @@ def create_optimizer(logger, optimizer, parameters, lr, weight_decay, options=No
     elif optimizer == 'adamax':
         return torch.optim.Adamax(parameters, lr=lr, weight_decay=weight_decay)
     else:
-        raise logger.exception("Unsupported optimizer: {}".format(name))
+        raise logger.exception("Unsupported optimizer: {}".format(optimizer))
 
 class EarlyStopping():
     def __init__(self, patience, tolerance=5e-6):
@@ -228,6 +228,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     # priting the training params to the logger
     logger.info("Starting training with the following parameters:")
     logger.info(str(train_params))
+    print(str(train_params))
 
     # creating optimizer
     optimizer = create_optimizer(logger,
@@ -312,8 +313,13 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                 epoch,
                 cur_loss/K
             )
+        print('Epoch {}; Train loss {:.4f};'.format(
+                epoch,
+                cur_loss/K
+            ))
         for taskname in task_list:
             log_info += ' Val loss %s %f;'% (taskname, val_loss[taskname])
+            print(' Val loss %s %f;'% (taskname, val_loss[taskname]))
         # log epoch
         logger.info(log_info)
 
