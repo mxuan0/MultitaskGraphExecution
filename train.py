@@ -261,8 +261,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             #     total += sum(loss)
             # total.backward()
             # cur_loss += total
-            # batch = next(iter(data_stream[taskname]))
-            # #pdb.set_trace()
+            batch = next(iter(data_stream[taskname]))
+
             loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
             #computing the gradient and applying it
