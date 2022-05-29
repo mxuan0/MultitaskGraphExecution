@@ -425,7 +425,9 @@ def train_adapt_sched(logger, device, data_stream, val_stream, model,
             for ith, batch in enumerate(val_stream[taskname]):
                 with torch.no_grad():
                     val_loss[taskname] += sum(loss_module_dict[taskname].val_loss(logger, device, model, batch, taskname)).item()
-
+            
+            prev_val[task_to_idx[taskname]] = val_loss[taskname]
+        
         log_info = 'Epoch {}; Train loss {:.4f};'.format(
                 epoch,
                 cur_loss
