@@ -73,7 +73,7 @@ model = arch.NeuralExecutor3_(device,
                               )
 
 train_params = {}
-train_params['optimizer'] = 'adam'
+train_params['optimizer'] = 'sgd'
 train_params['epochs'] = 10
 train_params['lr'] = 1
 train_params['warmup'] = 0
