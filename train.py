@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 import torch
-
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 from sample import categorical_sample, batch_sample
 import collections, pdb
@@ -121,7 +121,8 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
                                          )
-
+    train_traj = []
+    val_traj = []
     val_loss = 0
     warmup_steps_done = 0
     nbatches = len(data_stream)
@@ -176,7 +177,8 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
                 val_loss
             )
         )
-
+        train_traj.append(cur_loss/nbatches)
+        val_traj.append(val_loss)
         # decide whether to stop or not
         if early_stop:
             stop = early_stop_meter.update_meter(val_loss, model.state_dict())
@@ -188,6 +190,15 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
 
         temp = max(temp*temprate, tempmin)
         model.temp = temp
+
+    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
+    ax1.plot(range(len(train_traj)), train_traj)
+    ax2.plot(range(len(val_traj)), val_traj)
+    
+    ax1.set_title('training trajectory')
+    ax2.set_title('validation trajectory')
+
+    plt.show()
 
     return model.state_dict(), val_loss
 
@@ -228,6 +239,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     val_loss = 0
     warmup_steps_done = 0
     
+    train_traj = []
+    val_traj = {t:[] for t in task_list}
     for epoch in tqdm(range(epochs)):
         cur_loss = 0
         
@@ -281,11 +294,16 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         # eval -- potentially add ability to only do this every mth epoch
         model.eval()
+        
         val_loss = collections.defaultdict(float)
         for taskname in task_list:
             for ith, batch in enumerate(val_stream[taskname]):
                 with torch.no_grad():
                     val_loss[taskname] += sum(loss_module_dict[taskname].val_loss(logger, device, model, batch, taskname)).item()
+
+            val_traj[taskname].append(val_loss[taskname])
+        
+        train_traj.append(cur_loss/K)
 
         log_info = 'Epoch {}; Train loss {:.4f};'.format(
                 epoch,
@@ -293,9 +311,11 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             )
         for taskname in task_list:
             log_info += ' Val loss %s %f;'% (taskname, val_loss[taskname])
+        
         # log epoch
         logger.info(log_info)
 
+        
         total_val_loss = 0
         for k in val_loss:
             total_val_loss += val_loss[k]
@@ -310,6 +330,17 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         temp = max(temp*temprate, tempmin)
         model.temp = temp
+
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9, 3))
+    ax1.plot(range(len(train_traj)), train_traj)
+    ax2.plot(range(len(val_traj['bf'])), val_traj['bf'])
+    ax3.plot(range(len(val_traj['bfs'])), val_traj['bfs'])
+    
+    ax1.set_title('training trajectory')
+    ax2.set_title('BF validation trajectory')
+    ax3.set_title('BFS validation trajectory')
+
+    plt.show()
 
     return model.state_dict(), val_loss
 
