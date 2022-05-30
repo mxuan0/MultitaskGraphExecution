@@ -29,7 +29,8 @@ task = 'bfs bf'
 algo_names = ['bfs', 'bf']
 task_list = ['bfs', 'bf'] # or noalgo_?
 
-ngraph_train = ['100','2000']
+# ngraph_train = ['100','2000']
+ngraph_train = 1000
 ngraph_val = '100'
 ngraph_test = ['200', '200']
 
@@ -50,13 +51,13 @@ encdim = 32
 noisedim = 0
 
 train_params = {}
-train_params['optimizer'] = 'adam'
+train_params['optimizer'] = 'sgd'
 train_params['epochs'] = 50
 train_params['lr'] = 1
 train_params['warmup'] = 0
 train_params['earlystop'] = False
 train_params['patience'] = 2
-train_params['weightdecay'] = 0.00001
+train_params['weightdecay'] = 5e-5
 train_params['schedpatience'] = 0
 train_params['tempinit'] = 1.0
 train_params['temprate'] = 1.0
@@ -64,14 +65,14 @@ train_params['tempmin'] = 1.0
 train_params['earlytol'] = 1e-4
 train_params['ksamples'] = 1
 train_params['task'] = task
-train_params['batchsize'] = 50
+train_params['batchsize'] = 100
 
 #for adaptive scheduling
 train_params['exponent'] = 1.0
 
 #for seq reptile 
-train_params['K'] = 1
-train_params['alpha'] = 1e-4
+train_params['K'] = 10
+train_params['alpha'] = 5e-4
 
 
 # logger = _logger(logfile='Data/multi.log')
