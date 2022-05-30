@@ -245,8 +245,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             ## this is specific to the model & data we want to train, consider outsourcing to a function
             # the general scheme is:
             optimizer.zero_grad()
-            #taskname = task_list[categorical_sample(logit)]
-            taskname = temp_list[i]
+            taskname = task_list[categorical_sample(logit)]
+            #taskname = temp_list[i]
             # total = 0
             # for task in task_list:
             #     batch = next(iter(data_stream[task]))
