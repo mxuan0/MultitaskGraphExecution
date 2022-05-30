@@ -56,9 +56,9 @@ def seq_reptile_stream(ngraph_train:list, ngraph_val, nnode, logger, algo_names,
         ds = algo_to_dataset[algo](logger,train_datafp[i].split(' '),"Train")
         sampler = RandomSampler(ds, replacement=True)
         train_stream[algo] = DataLoader(ds,
-                                    #shuffle = True,
+                                    shuffle = True,
                                     batch_size = batchsize,
-                                    sampler=sampler,
+                                    #sampler=sampler,
                                     collate_fn = algo_to_collate[algo],
                                     drop_last = False
                                     )
