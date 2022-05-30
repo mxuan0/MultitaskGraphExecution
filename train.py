@@ -238,22 +238,22 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     print(str(train_params))
 
     # creating optimizer
-    optimizer = create_optimizer(logger,
-                                 train_params['optimizer'],
-                                 model.parameters(),
-                                 train_params['lr'],
-                                 train_params['weightdecay']
-                                 )
-
-    # scheduler for lr changes
-    if sched_patience == 0:
-        scheduler = None
-    else:
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
-                                                               'min',
-                                                               factor=0.5,
-                                                               patience=sched_patience
-                                                               )
+    # optimizer = create_optimizer(logger,
+    #                              train_params['optimizer'],
+    #                              model.parameters(),
+    #                              train_params['lr'],
+    #                              train_params['weightdecay']
+    #                              )
+    #
+    # # scheduler for lr changes
+    # if sched_patience == 0:
+    #     scheduler = None
+    # else:
+    #     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+    #                                                            'min',
+    #                                                            factor=0.5,
+    #                                                            patience=sched_patience
+    #                                                            )
     if early_stop:
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
@@ -302,10 +302,10 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
-                p -= lr * (p - q)
+                p -= train_params['alpha'] * (p - q)
 
-        if scheduler is not None and warmup_steps_done >=warm_up_steps:
-            scheduler.step(val_loss)
+        # if scheduler is not None and warmup_steps_done >=warm_up_steps:
+        #     scheduler.step(val_loss)
                 # scheduler.step(epoch + ith/nbatches)
 
         # eval -- potentially add ability to only do this every mth epoch
