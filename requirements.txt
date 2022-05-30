@@ -1,0 +1,6 @@
+mpmath==1.2.1
+numpy==1.22.3
+pi==0.1.2
+sympy==1.10.1
+torch==1.11.0
+typing_extensions==4.2.0

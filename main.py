@@ -4,6 +4,7 @@ import logging
 import sys
 import os
 from pathlib import Path
+from xmlrpc.client import Boolean
 
 import torch
 from torch.utils.data import DataLoader
@@ -46,12 +47,12 @@ def main():
     algo_names = list(map(lambda x: x.split('_')[-1], task_list))
     metadata = info(logger, algo_names)
     logger.info("Task metadata: " + str(metadata))
-    pdb.set_trace()
-    if args['datagen']:
+    # pdb.set_trace()
+    if args['datagen'] or args['datagenonly']:
         rand_gen = torch.distributions.Uniform(0.0, 1.0)
         ngraphs = args['ngraphs'].split(',')
         nnodes = args['nnodes'].split(',')
-        #filename = args['datagraphsetname'].split(',')
+        filename = args['datagraphsetname'].split(',')
         for graphtype, params in zip(args['graphtypes'].split(','), args['graphparams'].split(',')):
             for i in range(len(ngraphs)):
                 logger.info("Generating {} graphs".format(graphtype))
@@ -87,6 +88,7 @@ def main():
                 else:
                     logger.exception("Unknown graphtype {}")
         logger.info("Data generation done")
+        if args['datagenonly']: return
 
     # collect relevant stuff for training
     dset = dl.MultiAlgo
@@ -267,14 +269,18 @@ def pre_main():
     # default values as specified by the config file
     defaults = {}
 
-    '''if args.config:
+    if args.config:
         config = configparser.ConfigParser()
         config.read([args.config])
         for key, val in config.items('Defaults'):
             if val == 'True' or val == 'False':
                 defaults[key] = config.getboolean('Defaults', key)
             else:
-                defaults[key] = val'''
+                defaults[key] = val
+
+
+    
+
 
     # parse the remaining arguments
     # this Parser also generates the help message
@@ -528,10 +534,15 @@ def pre_main():
                         default='',
                         help='List of number of nodes per graph'
     )
-    parser.add_argument('--datagraphsetnam',
+    parser.add_argument('--datagraphsetname',
                         type=str,
                         default='',
-                        help='List of number of nodes per graph'
+                        help='graph names'
+    )
+    parser.add_argument('--datagenonly',
+                        type=str2bool,
+                        default=False,
+                        help='Generate data without training'
     )
 
     # note: set_default won't work with any variables with dashes/underscores in the name

@@ -2,8 +2,9 @@ from loss import LossAssembler, LossAssembler_, create_loss_class
 from train import train, train_seq_reptile
 import evaluate as ev
 import pdb
+
 def run_multi(model, logger, task_list, train_stream, 
-              val_stream, train_params, test_stream, device='cpu'):
+              val_stream, train_params, test_stream, device='cpu', verbose=False):
     algos = []
     for task in task_list:
         algos.append(
@@ -12,14 +13,27 @@ def run_multi(model, logger, task_list, train_stream,
     loss_module = LossAssembler(device, logger, algos, {'ksamples':1})
     recorder = None
     # creating the training parameter dict
-    model_state, val_loss = train(logger,
+    if verbose:
+      model_state, val_loss, add_info = train(logger,
                                     device,
                                     train_stream,
                                     val_stream,
                                     model,
                                     train_params,
                                     loss_module,
-                                    recorder
+                                    recorder,
+                                    verbose=True
+                                    )
+    else:
+      model_state, val_loss, add_info = train(logger,
+                                    device,
+                                    train_stream,
+                                    val_stream,
+                                    model,
+                                    train_params,
+                                    loss_module,
+                                    recorder,
+                                    verbose=False
                                     )
 
     metrics = [m for t in task_list for m in ev.get_metrics(t)]
@@ -30,9 +44,11 @@ def run_multi(model, logger, task_list, train_stream,
                 loss_module,
                 metrics
                 )
+    if verbose:
+      return add_info
 
 def run_seq_reptile(model, logger, task_list, train_stream, val_stream, 
-                    train_params, test_stream, device='cpu'):
+                    train_params, test_stream, device='cpu', verbose=False):
     
     loss_module_dict = {}
     for task in task_list:
@@ -41,14 +57,28 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream,
 
     recorder = None
     # creating the training parameter dict
-    model_state, val_loss = train_seq_reptile(logger,
-                                    device,
-                                    train_stream,
-                                    val_stream,
-                                    model,
-                                    train_params,
-                                    loss_module_dict,
-                                    )
+    if verbose:
+      model_state, val_loss, add_info = train_seq_reptile(logger,
+                                      device,
+                                      train_stream,
+                                      val_stream,
+                                      model,
+                                      train_params,
+                                      loss_module_dict,
+                                      task_list=task_list,
+                                      verbose=True
+                                      )
+    else:
+      model_state, val_loss = train_seq_reptile(logger,
+                                      device,
+                                      train_stream,
+                                      val_stream,
+                                      model,
+                                      train_params,
+                                      loss_module_dict,
+                                      task_list=task_list
+                                      )
+                                    
 
     metrics = {t:[m for m in ev.get_metrics(t)] for t in task_list}
     #pdb.set_trace()
@@ -59,6 +89,7 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream,
                 loss_module_dict,
                 metrics
                 )
+    return add_info
 
 def run_adapt_sched(model, logger, task_list, train_stream, val_stream, 
                     train_params, test_stream, device='cpu'):

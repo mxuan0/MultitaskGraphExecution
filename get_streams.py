@@ -3,10 +3,10 @@ from torch.utils.data import DataLoader, RandomSampler
 import collections
 
 def multi_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
-                 ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10):
-    train_datafp = 'Data/train_%s%s_%s' % (graph, ngraph_train, nnode)
-    val_datafp = 'Data/val_%s%s_%s' % (graph, ngraph_val, nnode)
-    test_datafp = ['Data/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
+                 ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10, data_folder='Data'):
+    train_datafp = f'{data_folder}/train_%s%s_%s' % (graph, ngraph_train, nnode)
+    val_datafp = f'{data_folder}/val_%s%s_%s' % (graph, ngraph_val, nnode)
+    test_datafp = [f'{data_folder}/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
 
     dset = dl.MultiAlgo
 
@@ -45,10 +45,10 @@ algo_to_collate = {
 }
 
 def seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
-                 ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10):
-    train_datafp = 'Data/train_%s%s_%s' % (graph, ngraph_train, nnode)
-    val_datafp = 'Data/val_%s%s_%s' % (graph, ngraph_val, nnode)
-    test_datafp = ['Data/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
+                 ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10, data_folder='Data'):
+    train_datafp = f'{data_folder}/train_%s%s_%s' % (graph, ngraph_train, nnode)
+    val_datafp = f'{data_folder}/val_%s%s_%s' % (graph, ngraph_val, nnode)
+    test_datafp = [f'{data_folder}/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
 
     train_stream = {}
     for algo in algo_names:

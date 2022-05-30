@@ -900,7 +900,7 @@ def adj_src_connect(adj, src_nodes):
 
     adj_connect = torch.zeros(adj.shape[:-1])
     idx = torch.arange(adj.shape[1]-1,-1,-1).repeat(adj.shape[0]//adj.shape[1]+1)[:adj.shape[0]]
-    pdb.set_trace()
+    # pdb.set_trace()
     # second index set incase src nodes over laps with the other one
     idx2 = torch.fmod(
         torch.arange(adj.shape[1],0,-1).repeat(adj.shape[0]//adj.shape[1]+1)[:adj.shape[0]],

@@ -14,20 +14,10 @@ from logger import _logger
 from get_streams import multi_stream, seq_reptile_stream
 torch.manual_seed(10)
 
-# def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
-#     gen_erdos_renyi(rand_generator, int(num_graph), int(num_node), datasavefp+"_", directed)
-#     src_nodes = torch.argmax(rand_generator.sample((int(num_graph), int(num_node))), dim=1)
-#     pdb.set_trace()
-#     gen_multi_algo_data(
-#         datasavefp+"_"+"erdosrenyi" + num_graph + "_"+ num_node + ".pt",
-#         src_nodes,
-#         task_list,
-#         True
-#     )
 
 task = 'bfs bf'
-algo_names = ['bfs', 'bf']
-task_list = ['bfs', 'bf'] # or noalgo_?
+algo_names = ['bfs']
+task_list = ['bfs'] # or noalgo_?
 
 ngraph_train = '2000'
 ngraph_val = '100'
@@ -36,9 +26,12 @@ ngraph_test = ['200', '200']
 nnode = '20'
 nnode_test = ['20', '50']
 
-rand_gen = torch.distributions.Uniform(0.0, 1.0)
-#gen_erdos_renyi_algo_results(rand_gen, ngraph_train, nnode, algo_names, 'Data/train')
-# gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
+data_folder = 'Data'
+graph = 'erdosrenyi'
+log_file = 'multi.log'
+
+# gen_erdos_renyi_algo_results(rand_gen, ngraph_train, nnode, algo_names, f'{data_folder}/train')
+# gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, f'{data_folder}/val')
 # for i in range(len(nnode_test)):
 #     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
 
@@ -74,7 +67,7 @@ train_params['K'] = 5
 train_params['alpha'] = 1e-4
 
 
-logger = _logger(logfile='Data/multi.log')
+logger = _logger(logfile=f'{data_folder}/{log_file}')
 metadata = info(logger, algo_names)
 model = arch.NeuralExecutor3(device,
                               metadata['nodedim'],
@@ -82,14 +75,11 @@ model = arch.NeuralExecutor3(device,
                               latentdim,
                               encdim,
                               pred=metadata['pred'],
-                              noise=noisedim
-                              )
-
+                              noise=noisedim)
 train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
                                                     nnode, logger, algo_names,
-                                                    ngraph_test, nnode_test, 
-                                                    batchsize=train_params['batchsize'])
-
+                                                    ngraph_test, nnode_test, graph=graph,
+                                                    batchsize=train_params['batchsize'], data_folder=data_folder)
 run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
 
 

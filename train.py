@@ -67,7 +67,7 @@ def train_metrics_record():
     """
     return ['gradient_norm']
 
-def train(logger, device, data_stream, val_stream, model, train_params, loss_module, recorder=None):
+def train(logger, device, data_stream, val_stream, model, train_params, loss_module, recorder=None, verbose=False):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -130,6 +130,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
     val_loss = 0
     warmup_steps_done = 0
     nbatches = len(data_stream)
+    loss_traject = []
     for epoch in tqdm(range(epochs)):
         model.train()
         cur_loss = 0
@@ -139,6 +140,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
             optimizer.zero_grad()
 
             loss = loss_module.train_loss(logger, device, model, batch)
+            loss_traject.append(loss)
 
             # computing the gradient and applying it
             sum(loss).backward()
@@ -194,10 +196,16 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
         temp = max(temp*temprate, tempmin)
         model.temp = temp
 
+    add_info = {}
+    add_info['loss_traject'] = loss_traject
+
+    if verbose:
+      return model.state_dict(), val_loss, add_info
+
     return model.state_dict(), val_loss
 
 def train_seq_reptile(logger, device, data_stream, val_stream, model, 
-                      train_params, loss_module_dict, task_list=['bf', 'bfs']):
+                      train_params, loss_module_dict, task_list=['bf', 'bfs'], verbose=False):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -208,6 +216,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     loss_fn: the training loss function
     val_loss_fn: the validation loss function
     """
+    
 
     # training parameters that are needed
     epochs = train_params['epochs']                # positive int
@@ -234,7 +243,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     prob = torch.tensor([1/len(task_list) for _ in range(len(task_list))])
     val_loss = 0
     warmup_steps_done = 0
-    
+    loss_traject = []
+    inner_optimizer_state = None
+
     for epoch in tqdm(range(epochs)):
         cur_loss = 0
         
@@ -245,6 +256,11 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['alpha'],
                                 train_params['weightdecay']
                                 )
+
+        if inner_optimizer_state is not None:
+          optimizer.load_state_dict(inner_optimizer_state)
+        
+
         temp_list = ['bfs', 'bfs', 'bf', 'bf', 'bf']
         model_copy.train()
         for i in range(K):
@@ -264,6 +280,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             batch = next(iter(data_stream[taskname]))
 
             loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
+            loss_traject.append(loss)
 
             #computing the gradient and applying it
             sum(loss).backward()
@@ -280,6 +297,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             #         param_group['lr'] = new_lr
 
             optimizer.step()
+
+        inner_optimizer_state = optimizer.state_dict()
 
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
@@ -317,6 +336,12 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         temp = max(temp*temprate, tempmin)
         model.temp = temp
+
+    add_info = {
+      'loss_traject': loss_traject,
+    }
+    if verbose:
+      return model.state_dict(), val_loss, add_info
 
     return model.state_dict(), val_loss
 
