@@ -9,7 +9,9 @@ from train import train, train_metadata
 import evaluate as ev
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+from torch.utils.tensorboard import SummaryWriter
 
+writer = SummaryWriter()
 torch.manual_seed(0)
 
 def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
@@ -148,16 +150,17 @@ for task in task_list:
 loss_module = LossAssembler(device, logger, algos, {'ksamples':1})
 recorder = None
 # creating the training parameter dict
-model_state, val_loss = train(logger,
+model_state, val_loss, writer = train(logger,
                                 device,
                                 train_stream,
                                 val_stream,
                                 model,
                                 train_params,
                                 loss_module,
-                                recorder
+                                writer,
+                                recorder,
                                 )
-
+writer.close()
 metrics = [m for t in task_list for m in ev.get_metrics(t)]
 ev.evaluate(logger,
             device,

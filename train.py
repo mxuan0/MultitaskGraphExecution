@@ -67,7 +67,7 @@ def train_metrics_record():
     """
     return ['gradient_norm']
 
-def train(logger, device, data_stream, val_stream, model, train_params, loss_module, recorder=None):
+def train(logger, device, data_stream, val_stream, model, train_params, loss_module, writer, recorder=None):
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -187,6 +187,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
                 val_loss
             )
         )
+        writer.add_scalar("Loss/train", cur_loss/nbatches, epoch)
 
         # decide whether to stop or not
         if early_stop:
@@ -200,7 +201,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
         temp = max(temp*temprate, tempmin)
         model.temp = temp
 
-    return model.state_dict(), val_loss
+    return model.state_dict(), val_loss, writer
 
 def train_seq_reptile(logger, device, data_stream, val_stream, model, 
                       train_params, loss_module_dict, writer, task_list=['bf', 'bfs']):
