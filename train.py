@@ -278,7 +278,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             loss = loss_module_dict['bf'].train_loss(logger, device, model_copy, bf_task_batch, "bf")
             total += sum(loss)
             total.backward()
-            cur_loss += total
+            cur_loss += total.item()
             # batch = next(iter(data_stream[taskname]))
 
             # loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
