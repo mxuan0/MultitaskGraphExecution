@@ -1,12 +1,7 @@
 from copy import deepcopy
-import pickle as pkl
 
 import torch
-from torch.utils.data import DataLoader
 
-from dataloaders import Distilled, collate_distilled
-import loss
-import initialisation as init
 from tqdm import tqdm
 from sample import categorical_sample, batch_sample
 import collections, pdb
@@ -198,6 +193,7 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
 
 def train_seq_reptile(logger, device, data_stream, val_stream, model, 
                       train_params, loss_module_dict, task_list=['bf', 'bfs']):
+   
     """
     logger: for logging trainig progress
     device: whether to train on gpu or cpu
@@ -208,7 +204,6 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     loss_fn: the training loss function
     val_loss_fn: the validation loss function
     """
-
     # training parameters that are needed
     epochs = train_params['epochs']                # positive int
     lr = train_params['lr']                        # positive float
@@ -216,11 +211,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     early_stop = train_params['earlystop']         # bool
     early_tol = train_params['earlytol']           # positive small float
     patience = train_params['patience']            # positive int
-    sched_patience = train_params['schedpatience'] # positive or 0 int
     temp = train_params['tempinit']                # temp init
     temprate = train_params['temprate']            # temp rate
     tempmin = train_params['tempmin']              # temp min
-    bsize = train_params['batchsize']           # positive int
     K = train_params['K'] 
     
     # priting the training params to the logger
@@ -245,30 +238,29 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['alpha'],
                                 train_params['weightdecay']
                                 )
-                                
-        temp_list = ['bf', 'bf', 'bf', 'bf', 'bf', 'bfs', 'bfs', 'bfs', 'bfs', 'bfs']
+
+        temp_list = ['bfs', 'bfs', 'bfs', 'bfs', 'bfs', 'bf', 'bf', 'bf', 'bf', 'bf']
         model_copy.train()
         for i in range(K):
             ## this is specific to the model & data we want to train, consider outsourcing to a function
             # the general scheme is:
             optimizer.zero_grad()
-
             #taskname = task_list[categorical_sample(logit)]
-            #taskname = temp_list[i]
-            total = 0
-            for task in task_list:
-                batch = next(iter(data_stream[task]))
-                loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
-                total += sum(loss)
-            total.backward()
-            cur_loss += total
-            # batch = next(iter(data_stream[taskname]))
+            taskname = temp_list[i]
+            # total = 0
+            # for task in task_list:
+            #     batch = next(iter(data_stream[task]))
+            #     loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
+            #     total += sum(loss)
+            # total.backward()
+            # cur_loss += total
+            batch = next(iter(data_stream[taskname]))
 
-            # loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
+            loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
 
-            # #computing the gradient and applying it
-            # sum(loss).backward()
-            # cur_loss += sum(loss).item()
+            #computing the gradient and applying it
+            sum(loss).backward()
+            cur_loss += sum(loss).item()
             
             # clip gradients
             torch.nn.utils.clip_grad_norm_(model_copy.parameters(), 8)
