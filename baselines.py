@@ -48,6 +48,7 @@ def run_seq_reptile(model, logger, task_list, train_stream, val_stream,
                                     model,
                                     train_params,
                                     loss_module_dict,
+                                    task_list     
                                     )
 
     metrics = {t:[m for m in ev.get_metrics(t)] for t in task_list}

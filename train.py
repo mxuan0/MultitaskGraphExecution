@@ -331,14 +331,14 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         temp = max(temp*temprate, tempmin)
         model.temp = temp
 
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9, 3))
-    ax1.plot(range(len(train_traj)), train_traj)
-    ax2.plot(range(len(val_traj['bf'])), val_traj['bf'])
-    ax3.plot(range(len(val_traj['bfs'])), val_traj['bfs'])
+    f, axes = plt.subplots(1, len(task_list)+1, figsize=(9, 9//(len(task_list)+1)))
     
-    ax1.set_title('training trajectory')
-    ax2.set_title('BF validation trajectory')
-    ax3.set_title('BFS validation trajectory')
+    axes[0].plot(range(len(train_traj)), train_traj)
+    axes[0].set_title('training trajectory')
+    
+    for i in range(len(task_list)):
+        axes[i+1].plot(range(len(val_traj[task_list[i]])), val_traj[task_list[i]])
+        axes[i+1].set_title('%s validation trajectory'%task_list[i])
 
     plt.show()
 
