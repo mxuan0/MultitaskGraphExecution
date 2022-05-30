@@ -302,7 +302,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
-                p -= train_params['alpha'] * (p - q)
+                p -= lr * (p - q)
 
         # if scheduler is not None and warmup_steps_done >=warm_up_steps:
         #     scheduler.step(val_loss)
