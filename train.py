@@ -239,6 +239,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     val_loss = 0
     warmup_steps_done = 0
     
+    inner_optimizer_state = None 
+
     train_traj = []
     val_traj = {t:[] for t in task_list}
     for epoch in tqdm(range(epochs)):
@@ -251,6 +253,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                 train_params['alpha'],
                                 train_params['weightdecay']
                                 )
+
+        if inner_optimizer_state is not None:
+          optimizer.load_state_dict(inner_optimizer_state)
 
         temp_list = ['bf', 'bf', 'bf', 'bf', 'bf', 'bfs', 'bfs', 'bfs', 'bfs', 'bfs']
         model_copy.train()
@@ -287,6 +292,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
             optimizer.step()
 
+        inner_optimizer_state = optimizer.state_dict()
+        
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
                 p -= lr * (p - q)
