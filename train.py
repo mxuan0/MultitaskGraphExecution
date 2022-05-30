@@ -253,14 +253,13 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             # the general scheme is:
             optimizer.zero_grad()
 
-            #taskname = task_list[categorical_sample(logit)]
-            #taskname = temp_list[i]
             total = 0
             batch = next(iter(data_stream))
             bfs_task_batch = (batch[0], batch[1], batch[2][:, :, :1, :], torch.tensor([0]), batch[-1])
             bf_task_batch = (batch[0], batch[1], batch[2][:, :, 1:, :], batch[-2], batch[-1])
 
             loss = loss_module_dict['bfs'].train_loss(logger, device, model_copy, bfs_task_batch, "bfs")
+            total += sum(loss)
             loss = loss_module_dict['bf'].train_loss(logger, device, model_copy, bf_task_batch, "bf")
             total += sum(loss)
             total.backward()
