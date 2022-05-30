@@ -181,6 +181,12 @@ def train(logger, device, data_stream, val_stream, model, train_params, loss_mod
                 val_loss
             )
         )
+        print('Epoch {}; Train loss {:.4f}; Val loss {:.4f}'.format(
+                epoch,
+                cur_loss/nbatches,
+                val_loss
+            )
+        )
 
         # decide whether to stop or not
         if early_stop:

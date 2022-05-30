@@ -186,6 +186,7 @@ def evaluate(logger, device, test_stream, model, loss_mod, metrics):
 
             for ith, metric in enumerate(metrics):
                 logger.info(metric+": {}".format(mean_test_acc[ith]))
+                print(metric + ": {}".format(mean_test_acc[ith]))
 
     return
 
