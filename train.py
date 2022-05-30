@@ -231,7 +231,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
                                          )
-    logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
+    #logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
     val_loss = 0
     warmup_steps_done = 0
     
@@ -256,10 +256,13 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             #taskname = task_list[categorical_sample(logit)]
             #taskname = temp_list[i]
             total = 0
-            for task in task_list:
-                batch = next(iter(data_stream[task]))
-                loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
-                total += sum(loss)
+            batch = next(iter(data_stream))
+            bfs_task_batch = (batch[0], batch[1], batch[2][:, :, :1, :], torch.tensor([0]), batch[-1])
+            bf_task_batch = (batch[0], batch[1], batch[2][:, :, 1:, :], batch[-2], batch[-1])
+
+            loss = loss_module_dict['bfs'].train_loss(logger, device, model_copy, bfs_task_batch, "bfs")
+            loss = loss_module_dict['bf'].train_loss(logger, device, model_copy, bf_task_batch, "bf")
+            total += sum(loss)
             total.backward()
             cur_loss += total
             # batch = next(iter(data_stream[taskname]))
