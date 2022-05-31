@@ -280,7 +280,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             if setting == '1BF+1BFS':
                 total = 0
                 batch = next(iter(data_stream))
+                pdb.set_trace() 
                 bfs_task_batch = (batch[0], batch[1], batch[2][:, :, :1, :], torch.tensor([0]), batch[-1])
+                pdb.set_trace() 
                 bf_task_batch = (batch[0], batch[1], batch[2][:, :, 1:, :], batch[-2], batch[-1])
                 loss = loss_module_dict['bfs'].train_loss(logger, device, model_copy, bfs_task_batch, "bfs")
                 total += sum(loss)

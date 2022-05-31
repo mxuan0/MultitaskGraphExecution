@@ -37,7 +37,7 @@ noisedim = 0
 
 train_params = {}
 train_params['optimizer'] = 'adam'
-train_params['epochs'] = 100
+train_params['epochs'] = 300
 train_params['lr'] = 1
 train_params['warmup'] = 0
 train_params['earlystop'] = False
@@ -50,7 +50,7 @@ train_params['tempmin'] = 1.0
 train_params['earlytol'] = 1e-4
 train_params['ksamples'] = 1
 train_params['task'] = task
-train_params['batchsize'] = 50
+train_params['batchsize'] = 100
 
 #for adaptive scheduling
 train_params['exponent'] = 1.0
@@ -70,8 +70,8 @@ if False:
 graphTypes = ['erdosrenyi', 'barabasialbert', 'twodgrid']
 num_graph = [['1000','1000'], ['1000','100'], ['100', '1000']]
 
-#for setting in ['Random', 'BF->BFS', 'BFS->BF']:
-for setting in ['1BF+1BFS']:
+for setting in ['Random', 'BF_BFS', 'BFS_BF']:
+#for setting in ['1BF+1BFS']:
         for graph in num_graph:
 
                 
@@ -80,7 +80,7 @@ for setting in ['1BF+1BFS']:
                 train_params['ngraph'] = graph
                 train_params['graphtype'] = graphTypes[0] 
 
-                logger = _logger(logfile='Data/test.log')
+                logger = _logger(logfile=f'Data/{setting}.log')
                 metadata = info(logger, algo_names)
                 model = arch.NeuralExecutor3_(device,
                                         metadata['nodedim'],
@@ -93,7 +93,7 @@ for setting in ['1BF+1BFS']:
                                         )
 
                 train_stream, val_stream, test_stream = seq_reptile_stream(graph, ngraph_val, nnode, logger, algo_names,
-                                ngraph_test, nnode_test, graphTypes[0], batchsize=train_params['batchsize'])
+                                ngraph_test, nnode_test, graphTypes[0],setting, batchsize=train_params['batchsize'])
 
                 run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device=device)
 
