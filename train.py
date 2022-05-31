@@ -240,7 +240,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         early_stop_meter = EarlyStopping(patience,
                                          tolerance=early_tol
                                          )
-    logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
+    
+    #if setting != '1BF+1BFS': 
+        #logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
     val_loss = 0
     warmup_steps_done = 0
     inner_optimizer_state = None
@@ -280,9 +282,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             if setting == '1BF+1BFS':
                 total = 0
                 batch = next(iter(data_stream))
-                pdb.set_trace() 
+                #pdb.set_trace() 
                 bfs_task_batch = (batch[0], batch[1], batch[2][:, :, :1, :], torch.tensor([0]), batch[-1])
-                pdb.set_trace() 
+                #pdb.set_trace() 
                 bf_task_batch = (batch[0], batch[1], batch[2][:, :, 1:, :], batch[-2], batch[-1])
                 loss = loss_module_dict['bfs'].train_loss(logger, device, model_copy, bfs_task_batch, "bfs")
                 total += sum(loss)
@@ -306,13 +308,10 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                     temp_list = ['bfs', 'bfs', 'bfs', 'bfs', 'bfs', 'bf', 'bf', 'bf', 'bf', 'bf']
             
                 taskname = temp_list[i]
-                total = 0
-                for task in task_list:
-                    batch = next(iter(data_stream[task]))
-                    loss = loss_module_dict[task].train_loss(logger, device, model_copy, batch, task)
-                    total += sum(loss)
-                total.backward()
-                cur_loss += total
+                batch = next(iter(data_stream[taskname]))
+                loss = loss_module_dict[taskname].train_loss(logger, device, model_copy, batch, taskname)
+                sum(loss).backward()
+                cur_loss += sum(loss).item()
             
                 
             
@@ -340,7 +339,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
        
        
         if setting is not "Random": 
-            train_traj.append(cur_loss.item()/K)
+            train_traj.append(cur_loss/K)
         else:     
             train_traj.append(cur_loss/K)
         

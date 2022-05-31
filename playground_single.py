@@ -26,7 +26,7 @@ nnode = '20'
 nnode_test = ['20', '50']
 
                     
-device = 'cuda:0'
+device = 'cuda:1'
 latentdim = 32
 encdim = 32 
 noisedim = 0
@@ -68,10 +68,13 @@ if False:
 
 
 graphTypes = ['erdosrenyi', 'barabasialbert', 'twodgrid']
-num_graph = [['1000','1000'], ['1000','100'], ['100', '1000']]
+num_graph = ['1000', '100']
 
-for setting in ['BF_BFS', 'BFS_BF']:
-#for setting in ['1BF+1BFS']:
+
+#for setting in ['Random', 'BF_BFS', 'BFS_BF']:
+#num_graph = [['1000','1000'], ['1000','100'], ['100', '1000']]
+
+for setting in ['1BF+1BFS']:
         for graph in num_graph:
 
                 
