@@ -32,7 +32,7 @@ def run_multi(model, logger, task_list, train_stream,
                 )
 
 def run_seq_reptile(model, logger, task_list, train_stream, val_stream, 
-                    train_params, test_stream, device='cpu'):
+                    train_params, test_stream, device):
     
     loss_module_dict = {}
     for task in task_list:
