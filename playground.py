@@ -70,13 +70,14 @@ if False:
 graphTypes = ['erdosrenyi', 'barabasialbert', 'twodgrid']
 num_graph = [['1000','1000'], ['1000','100'], ['100', '1000']]
 
-for setting in ['Random', 'BF->BFS', 'BFS->BF']:
-        for g_type in num_graphs:
+#for setting in ['Random', 'BF->BFS', 'BFS->BF']:
+for setting in ['1BF+1BFS']:
+        for graph in num_graph:
 
                 
-                ngraph_train = g_type
+                #ngraph_train = g_type
                 train_params['setting'] = setting 
-                train_params['ngraph'] = g_type
+                train_params['ngraph'] = graph
                 train_params['graphtype'] = graphTypes[0] 
 
                 logger = _logger(logfile='Data/test.log')
@@ -91,7 +92,7 @@ for setting in ['Random', 'BF->BFS', 'BFS->BF']:
                                         noise=noisedim
                                         )
 
-                train_stream, val_stream, test_stream = seq_reptile_stream(g_type, ngraph_val, nnode, logger, algo_names,
+                train_stream, val_stream, test_stream = seq_reptile_stream(graph, ngraph_val, nnode, logger, algo_names,
                                 ngraph_test, nnode_test, graphTypes[0], batchsize=train_params['batchsize'])
 
                 run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device=device)
