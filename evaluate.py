@@ -207,6 +207,7 @@ def evaluate_single_algo(logger, device, test_stream, model, loss_mod_dict, metr
                 mean_test_acc = [metric/ngraphs_total for metric in total_test_acc]
 
                 for ith, metric in enumerate(metrics[algo]):
+                    print(metric + ": {}".format(mean_test_acc[ith]))
                     logger.info(metric+": {}".format(mean_test_acc[ith]))
 
     return
