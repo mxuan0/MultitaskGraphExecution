@@ -183,8 +183,8 @@ def evaluate(logger, device, test_stream, model, loss_mod, metrics):
             for batch in stream:
                 batch_test_acc = loss_mod.test_loss(logger, device, model, batch)
                 total_test_acc = [cum + btl for cum, btl in zip(total_test_acc, batch_test_acc)]
-            mean_test_acc = [metric/ngraphs_total for metric in total_test_acc]
-            res.append(mean_test_acc.detach().cpu())
+            mean_test_acc = [metric.detach().cpu()/ngraphs_total for metric in total_test_acc]
+            res.append(mean_test_acc)
             for ith, metric in enumerate(metrics):
                 logger.info(metric+": {}".format(mean_test_acc[ith]))
                 print(metric + ": {}".format(mean_test_acc[ith]))
