@@ -98,7 +98,7 @@ def baseline_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
     train_datafp = 'Data/train_erdosrenyi%s_%s' % (ngraph_train, nnode)
     val_datafp = 'Data/val_erdosrenyi%s_%s' % (ngraph_val, nnode)
     test_datafp = ['Data/test_erdosrenyi%s_%s' % (ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
-    batchsize = 10
+    # batchsize = 10
 
     dset = dl.MultiAlgo
     train_stream = DataLoader(dset(logger, train_datafp.split(' '), algo_names, "Train"),
