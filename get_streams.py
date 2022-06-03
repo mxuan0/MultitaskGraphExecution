@@ -90,3 +90,38 @@ def seq_reptile_stream(ngraph_train:list, ngraph_val, nnode, logger, algo_names,
                                             )
                             )
     return train_stream, val_stream, test_stream
+
+
+def baseline_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+                 ngraph_test:list, nnode_test:list, graph='erdosrenyi', batchsize=10):
+
+    train_datafp = 'Data/train_erdosrenyi%s_%s' % (ngraph_train, nnode)
+    val_datafp = 'Data/val_erdosrenyi%s_%s' % (ngraph_val, nnode)
+    test_datafp = ['Data/test_erdosrenyi%s_%s' % (ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
+    batchsize = 10
+
+    dset = dl.MultiAlgo
+    train_stream = DataLoader(dset(logger, train_datafp.split(' '), algo_names, "Train"),
+                              shuffle=True,
+                              batch_size=batchsize,
+                              collate_fn=dl.collate_multi_algo,
+                              drop_last=False
+                              )
+
+    val_stream = DataLoader(dset(logger, val_datafp.split(' '), algo_names, "Validation"),
+                            shuffle=False,
+                            batch_size=batchsize,
+                            collate_fn=dl.collate_multi_algo,
+                            drop_last=False
+                            )
+
+    test_stream = []
+    for fp in test_datafp:
+        test_stream.append(DataLoader(dset(logger, [fp], algo_names, 'Test'),
+                                      shuffle=False,
+                                      batch_size=batchsize,
+                                      collate_fn=dl.collate_multi_algo,
+                                      drop_last=False
+                                      )
+                           )
+    return train_stream, val_stream, test_stream
