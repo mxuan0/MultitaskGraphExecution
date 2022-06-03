@@ -206,7 +206,7 @@ def evaluate_single_algo(logger, device, test_stream, model, loss_mod_dict, metr
                 for batch in stream:
                     batch_test_acc = loss_mod_dict[algo].test_loss(logger, device, model, batch, algo)
                     total_test_acc = [cum + btl for cum, btl in zip(total_test_acc, batch_test_acc)]
-                mean_test_acc = [metric.cpu().numpy()/ngraphs_total for metric in total_test_acc]
+                mean_test_acc = [metric.detach().cpu()/ngraphs_total for metric in total_test_acc]
                 res.append(mean_test_acc)
                 for ith, metric in enumerate(metrics[algo]):
                     print(metric+": {}".format(mean_test_acc[ith]))
