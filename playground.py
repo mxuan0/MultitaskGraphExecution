@@ -30,17 +30,17 @@ algo_names = ['bfs', 'bf']
 task_list = ['bfs', 'bf'] # or noalgo_?
 
 ngraph_train = ['100','2000']
-ngraph_val = '100'
-ngraph_test = ['200', '200']
+ngraph_val = '500'
+ngraph_test = ['500', '500']
 
 nnode = '20'
 nnode_test = ['20', '50']
 
 # rand_gen = torch.distributions.Uniform(0.0, 1.0)
 # gen_erdos_renyi_algo_results(rand_gen, '5000', nnode, algo_names, 'Data/train')
-# # gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
-# # for i in range(len(nnode_test)):
-# #     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
+# gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
+# for i in range(len(nnode_test)):
+#     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
 
 # exit()      
                     
