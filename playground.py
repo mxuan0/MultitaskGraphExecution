@@ -14,16 +14,16 @@ from logger import _logger
 from get_streams import multi_stream, seq_reptile_stream
 torch.manual_seed(10)
 
-# def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
-#     gen_erdos_renyi(rand_generator, int(num_graph), int(num_node), datasavefp+"_", directed)
-#     src_nodes = torch.argmax(rand_generator.sample((int(num_graph), int(num_node))), dim=1)
-#     pdb.set_trace()
-#     gen_multi_algo_data(
-#         datasavefp+"_"+"erdosrenyi" + num_graph + "_"+ num_node + ".pt",
-#         src_nodes,
-#         task_list,
-#         True
-#     )
+def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
+    gen_erdos_renyi(rand_generator, int(num_graph), int(num_node), datasavefp+"_", directed)
+    src_nodes = torch.argmax(rand_generator.sample((int(num_graph), int(num_node))), dim=1)
+    pdb.set_trace()
+    gen_multi_algo_data(
+        datasavefp+"_"+"erdosrenyi" + num_graph + "_"+ num_node + ".pt",
+        src_nodes,
+        task_list,
+        True
+    )
 
 task = 'bfs bf'
 algo_names = ['bfs', 'bf']
@@ -36,13 +36,13 @@ ngraph_test = ['200', '200']
 nnode = '20'
 nnode_test = ['20', '50']
 
-rand_gen = torch.distributions.Uniform(0.0, 1.0)
-#gen_erdos_renyi_algo_results(rand_gen, ngraph_train, nnode, algo_names, 'Data/train')
-# gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
-# for i in range(len(nnode_test)):
-#     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
+# rand_gen = torch.distributions.Uniform(0.0, 1.0)
+# gen_erdos_renyi_algo_results(rand_gen, '5000', nnode, algo_names, 'Data/train')
+# # gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
+# # for i in range(len(nnode_test)):
+# #     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
 
-      
+# exit()      
                     
 device = 'cpu'
 latentdim = 32
