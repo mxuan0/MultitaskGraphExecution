@@ -100,14 +100,14 @@ class LossAssembler_():
                 term_mask = mask if t.tf else mask * term[:,i+1]
 
                 # state loss computation
-                # batch_loss_state_algo = t.state_loss_fn(
-                #     device,
-                #     y_algo,
-                #     state[:,:,s_offset:s_offset+t.nodedim,i],
-                #     state[:,:,s_offset:s_offset+t.nodedim,i+1],
-                #     node_mask,
-                #     term_mask
-                # )
+                batch_loss_state_algo = t.state_loss_fn(
+                    device,
+                    y_algo,
+                    state[:,:,s_offset:s_offset+t.nodedim,i],
+                    state[:,:,s_offset:s_offset+t.nodedim,i+1],
+                    node_mask,
+                    term_mask
+                )
 
                 # pred loss computation
                 if t.preddim > 0:
@@ -137,13 +137,13 @@ class LossAssembler_():
                 p_offset += t.preddim
 
                 # reporting the batch loss
-                # batch_loss[l_offset:l_offset+t.nodedim] = list(
-                #     map(
-                #         sum,
-                #         zip(batch_loss_state_algo,
-                #             batch_loss[l_offset:l_offset+t.nodedim])
-                #     )
-                # )
+                batch_loss[l_offset:l_offset+t.nodedim] = list(
+                    map(
+                        sum,
+                        zip(batch_loss_state_algo,
+                            batch_loss[l_offset:l_offset+t.nodedim])
+                    )
+                )
                 l_offset += t.nodedim
                 if t.preddim > 0:
                     batch_loss[l_offset:l_offset+t.preddim] = list(
@@ -452,14 +452,14 @@ class LossAssembler():
                 term_mask = mask if t.tf else mask * term[:,i+1]
 
                 # state loss computation
-                batch_loss_state_algo = t.state_loss_fn(
-                    device,
-                    y_algo,
-                    state[:,:,s_offset:s_offset+t.nodedim,i],
-                    state[:,:,s_offset:s_offset+t.nodedim,i+1],
-                    node_mask,
-                    term_mask
-                )
+                # batch_loss_state_algo = t.state_loss_fn(
+                #     device,
+                #     y_algo,
+                #     state[:,:,s_offset:s_offset+t.nodedim,i],
+                #     state[:,:,s_offset:s_offset+t.nodedim,i+1],
+                #     node_mask,
+                #     term_mask
+                # )
 
                 # pred loss computation
                 if t.preddim > 0:
@@ -489,13 +489,13 @@ class LossAssembler():
                 p_offset += t.preddim
 
                 # reporting the batch loss
-                batch_loss[l_offset:l_offset+t.nodedim] = list(
-                    map(
-                        sum,
-                        zip(batch_loss_state_algo,
-                            batch_loss[l_offset:l_offset+t.nodedim])
-                    )
-                )
+                # batch_loss[l_offset:l_offset+t.nodedim] = list(
+                #     map(
+                #         sum,
+                #         zip(batch_loss_state_algo,
+                #             batch_loss[l_offset:l_offset+t.nodedim])
+                #     )
+                # )
                 l_offset += t.nodedim
                 if t.preddim > 0:
                     batch_loss[l_offset:l_offset+t.preddim] = list(
