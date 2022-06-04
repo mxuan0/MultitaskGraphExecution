@@ -37,7 +37,7 @@ noisedim = 0
 
 train_params = {}
 train_params['optimizer'] = 'adam'
-train_params['epochs'] = 300
+train_params['epochs'] = 2#300
 train_params['lr'] = 1
 train_params['warmup'] = 0
 train_params['earlystop'] = False

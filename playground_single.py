@@ -26,7 +26,7 @@ nnode = '20'
 nnode_test = ['20', '50']
 
                     
-device = 'cuda:1'
+device = 'cuda:0'
 latentdim = 32
 encdim = 32 
 noisedim = 0
