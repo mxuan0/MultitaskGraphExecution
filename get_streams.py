@@ -63,11 +63,15 @@ def seq_reptile_stream(ngraph_train:list, ngraph_val, nnode, logger, algo_names,
         # pdb.set_trace()
         val_stream = {}
         for algo in algo_names:
-            ds = algo_to_dataset[algo](logger, val_datafp.split(' '), "Validation")
+            #ds = algo_to_dataset[algo](logger, val_datafp.split(' '), "Validation")
+            #?? ds = dset(logger,val_datafp.split(' '),"Validation")  
+            #ds = dset(logger,val_datafp.split(' '), [algo],"Validation")
+            ds = dset(logger,val_datafp.split(' '), [algo],"Validation") 
             val_stream[algo] = DataLoader(ds,
                                         shuffle=False,
                                         batch_size=batchsize,
-                                        collate_fn=algo_to_collate[algo],
+                                        #collate_fn=algo_to_collate[algo], 
+                                        collate_fn = dl.collate_multi_algo, 
                                         drop_last=False
                                         )
 
@@ -89,26 +93,30 @@ def seq_reptile_stream(ngraph_train:list, ngraph_val, nnode, logger, algo_names,
         val_datafp = 'Data/val_%s%s_%s' % (graph, ngraph_val, nnode)
         test_datafp = ['Data/test_%s%s_%s' % (graph, ngraph_test[i], nnode_test[i]) for i in range(len(nnode_test))]
 
+
+        dset = dl.MultiAlgo
         train_stream = {}
         for i in range(len(algo_names)):
             algo = algo_names[i]
-            ds = algo_to_dataset[algo](logger,train_datafp[i].split(' '),"Train")
+            #ds = algo_to_dataset[algo](logger,train_datafp[i].split(' '),"Train")
+            ds = dset(logger,train_datafp[i].split(' '),[algo])
             sampler = RandomSampler(ds, replacement=True)
             train_stream[algo] = DataLoader(ds,
                                         shuffle = True,
                                         batch_size = batchsize,
                                         #sampler=sampler,
-                                        collate_fn = algo_to_collate[algo],
+                                        #collate_fn = algo_to_collate[algo],
+                                        collate_fn = dl.collate_multi_algo, 
                                         drop_last = False
                                         )
         #pdb.set_trace()
         val_stream = {}
         for algo in algo_names:
-            ds = algo_to_dataset[algo](logger,val_datafp.split(' '),"Validation")
+            ds = dset(logger,val_datafp.split(' '), [algo],"Validation")
             val_stream[algo] = DataLoader(ds,
                                         shuffle = False,
                                         batch_size = batchsize,
-                                        collate_fn = algo_to_collate[algo],
+                                        collate_fn = dl.collate_multi_algo,
                                         drop_last = False
                                         )
                                     

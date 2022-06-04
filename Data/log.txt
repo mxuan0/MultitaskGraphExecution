@@ -52,3 +52,418 @@
 2022-05-26 14:25:24,553 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf widestpar', 'batchsize': 10}
 2022-05-26 21:22:22,851 [MainThread  ] [INFO ] Starting training with the following parameters:
 2022-05-26 21:22:22,851 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf widestpar', 'batchsize': 10}
+2022-06-02 21:49:39,286 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 21:49:39,287 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 21:49:43,752 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 21:49:43,753 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 21:49:50,694 [MainThread  ] [INFO ] Epoch 0; Train loss 30.5963; Val loss 232.6938
+2022-06-02 21:49:51,259 [MainThread  ] [INFO ] Test
+2022-06-02 21:49:54,403 [MainThread  ] [INFO ] BellmanFord: mean squared error: 17.512527465820312
+2022-06-02 21:49:54,404 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 12.210606575012207
+2022-06-02 21:49:54,404 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.25677043199539185
+2022-06-02 21:49:54,404 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.208069309592247
+2022-06-02 21:49:54,404 [MainThread  ] [INFO ] Termination accuracy: 0.5252500176429749
+2022-06-02 21:49:54,404 [MainThread  ] [INFO ] Test
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] BellmanFord: mean squared error: 90.85589599609375
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 82.1943359375
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.2087668776512146
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11876600235700607
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] Termination accuracy: 0.5111249685287476
+2022-06-02 21:50:49,677 [MainThread  ] [INFO ] Test
+2022-06-02 21:51:44,324 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 21:51:44,324 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 21:51:51,327 [MainThread  ] [INFO ] Epoch 0; Train loss 30.5963; Val loss 232.6938
+2022-06-02 21:51:51,724 [MainThread  ] [INFO ] Test
+2022-06-02 21:51:55,052 [MainThread  ] [INFO ] BellmanFord: mean squared error: 17.512527465820312
+2022-06-02 21:51:55,052 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 12.210606575012207
+2022-06-02 21:51:55,053 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.25677043199539185
+2022-06-02 21:51:55,053 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.208069309592247
+2022-06-02 21:51:55,053 [MainThread  ] [INFO ] Termination accuracy: 0.5252500176429749
+2022-06-02 21:51:55,053 [MainThread  ] [INFO ] Test
+2022-06-02 21:52:59,418 [MainThread  ] [INFO ] BellmanFord: mean squared error: 90.85589599609375
+2022-06-02 21:52:59,419 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 82.1943359375
+2022-06-02 21:52:59,419 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.2087668776512146
+2022-06-02 21:52:59,419 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11876600235700607
+2022-06-02 21:52:59,419 [MainThread  ] [INFO ] Termination accuracy: 0.5111249685287476
+2022-06-02 21:52:59,419 [MainThread  ] [INFO ] Test
+2022-06-02 21:54:26,131 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 21:54:26,131 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 21:54:33,361 [MainThread  ] [INFO ] Epoch 0; Train loss 30.5963; Val loss 232.6938
+2022-06-02 21:54:33,705 [MainThread  ] [INFO ] Test
+2022-06-02 21:54:37,084 [MainThread  ] [INFO ] BellmanFord: mean squared error: 17.512527465820312
+2022-06-02 21:54:37,084 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 12.210606575012207
+2022-06-02 21:54:37,084 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.25677043199539185
+2022-06-02 21:54:37,084 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.208069309592247
+2022-06-02 21:54:37,085 [MainThread  ] [INFO ] Termination accuracy: 0.5252500176429749
+2022-06-02 21:54:37,085 [MainThread  ] [INFO ] Test
+2022-06-02 21:55:31,719 [MainThread  ] [INFO ] BellmanFord: mean squared error: 90.85589599609375
+2022-06-02 21:55:31,719 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 82.1943359375
+2022-06-02 21:55:31,719 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.2087668776512146
+2022-06-02 21:55:31,720 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11876600235700607
+2022-06-02 21:55:31,720 [MainThread  ] [INFO ] Termination accuracy: 0.5111249685287476
+2022-06-02 21:55:31,720 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:24,033 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 22:01:24,033 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 22:01:30,695 [MainThread  ] [INFO ] Epoch 0; Train loss 30.5963; Val loss 232.6938
+2022-06-02 22:01:31,033 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:34,040 [MainThread  ] [INFO ] BellmanFord: mean squared error: 17.512527465820312
+2022-06-02 22:01:34,040 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 12.210606575012207
+2022-06-02 22:01:34,040 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.25677043199539185
+2022-06-02 22:01:34,040 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.208069309592247
+2022-06-02 22:01:34,040 [MainThread  ] [INFO ] Termination accuracy: 0.5252500176429749
+2022-06-02 22:01:34,041 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:37,051 [MainThread  ] [INFO ] BellmanFord: mean squared error: 17.512527465820312
+2022-06-02 22:01:37,051 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 12.210606575012207
+2022-06-02 22:01:37,051 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.25677043199539185
+2022-06-02 22:01:37,051 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.208069309592247
+2022-06-02 22:01:37,052 [MainThread  ] [INFO ] Termination accuracy: 0.5252500176429749
+2022-06-02 22:01:37,067 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 22:01:37,067 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 22:01:37,068 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 22:01:37,068 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 1, 'lr': 0.0001, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 22:01:43,671 [MainThread  ] [INFO ] Epoch 0; Train loss 104.1572; Val loss 448.9971
+2022-06-02 22:01:43,671 [MainThread  ] [INFO ] Epoch 0; Train loss 104.1572; Val loss 448.9971
+2022-06-02 22:01:43,913 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:43,913 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: mean squared error: 35.197120666503906
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: mean squared error: 35.197120666503906
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.3927478790283203
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.3927478790283203
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.40272894501686096
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.40272894501686096
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.331783652305603
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.331783652305603
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 22:01:46,925 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 22:01:46,926 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:46,926 [MainThread  ] [INFO ] Test
+2022-06-02 22:01:49,886 [MainThread  ] [INFO ] BellmanFord: mean squared error: 35.197120666503906
+2022-06-02 22:01:49,886 [MainThread  ] [INFO ] BellmanFord: mean squared error: 35.197120666503906
+2022-06-02 22:01:49,895 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.3927478790283203
+2022-06-02 22:01:49,895 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.3927478790283203
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.40272894501686096
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.40272894501686096
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.331783652305603
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.331783652305603
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 22:01:49,896 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:43:18,466 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:18,467 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:43:24,992 [MainThread  ] [INFO ] Epoch 0; Train loss 15.9418; Val loss 147.9441
+2022-06-02 23:43:31,175 [MainThread  ] [INFO ] Epoch 1; Train loss 5.9983; Val loss 69.7889
+2022-06-02 23:43:31,480 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.1996212005615234
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.8771278858184814
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.3349496126174927
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11634982377290726
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] Termination accuracy: 0.7881668210029602
+2022-06-02 23:43:34,316 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:37,093 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.1996212005615234
+2022-06-02 23:43:37,093 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.8771278858184814
+2022-06-02 23:43:37,093 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.3349496126174927
+2022-06-02 23:43:37,093 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11634982377290726
+2022-06-02 23:43:37,093 [MainThread  ] [INFO ] Termination accuracy: 0.7881668210029602
+2022-06-02 23:43:37,107 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:37,107 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:37,107 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:43:37,107 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:43:43,666 [MainThread  ] [INFO ] Epoch 0; Train loss 48.3293; Val loss 87.4291
+2022-06-02 23:43:43,666 [MainThread  ] [INFO ] Epoch 0; Train loss 48.3293; Val loss 87.4291
+2022-06-02 23:43:49,931 [MainThread  ] [INFO ] Epoch 1; Train loss 8.8691; Val loss 59.6696
+2022-06-02 23:43:49,931 [MainThread  ] [INFO ] Epoch 1; Train loss 8.8691; Val loss 59.6696
+2022-06-02 23:43:50,193 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:50,193 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:43:53,016 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:53,017 [MainThread  ] [INFO ] Test
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:43:55,774 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:43:55,788 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:01,956 [MainThread  ] [INFO ] Epoch 0; Train loss 16.1803; Val loss 61.4511
+2022-06-02 23:44:01,956 [MainThread  ] [INFO ] Epoch 0; Train loss 16.1803; Val loss 61.4511
+2022-06-02 23:44:01,956 [MainThread  ] [INFO ] Epoch 0; Train loss 16.1803; Val loss 61.4511
+2022-06-02 23:44:08,117 [MainThread  ] [INFO ] Epoch 1; Train loss 6.9278; Val loss 61.4181
+2022-06-02 23:44:08,117 [MainThread  ] [INFO ] Epoch 1; Train loss 6.9278; Val loss 61.4181
+2022-06-02 23:44:08,117 [MainThread  ] [INFO ] Epoch 1; Train loss 6.9278; Val loss 61.4181
+2022-06-02 23:44:08,384 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:08,384 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:08,384 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:11,184 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:11,185 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:13,955 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:13,955 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:13,955 [MainThread  ] [INFO ] BellmanFord: mean squared error: 1.0632034540176392
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 0.7257883548736572
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.41010546684265137
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.1725202351808548
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:13,956 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:13,970 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:20,125 [MainThread  ] [INFO ] Epoch 0; Train loss 35.4502; Val loss 116.6004
+2022-06-02 23:44:20,125 [MainThread  ] [INFO ] Epoch 0; Train loss 35.4502; Val loss 116.6004
+2022-06-02 23:44:20,125 [MainThread  ] [INFO ] Epoch 0; Train loss 35.4502; Val loss 116.6004
+2022-06-02 23:44:20,125 [MainThread  ] [INFO ] Epoch 0; Train loss 35.4502; Val loss 116.6004
+2022-06-02 23:44:26,357 [MainThread  ] [INFO ] Epoch 1; Train loss 10.8973; Val loss 47.4069
+2022-06-02 23:44:26,357 [MainThread  ] [INFO ] Epoch 1; Train loss 10.8973; Val loss 47.4069
+2022-06-02 23:44:26,357 [MainThread  ] [INFO ] Epoch 1; Train loss 10.8973; Val loss 47.4069
+2022-06-02 23:44:26,357 [MainThread  ] [INFO ] Epoch 1; Train loss 10.8973; Val loss 47.4069
+2022-06-02 23:44:26,610 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:26,610 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:26,610 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:26,610 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:29,380 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:29,381 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:32,138 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:32,138 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:32,138 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:32,138 [MainThread  ] [INFO ] BellmanFord: mean squared error: 0.9791949987411499
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.4348161220550537
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7580999732017517
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.7033627033233643
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:32,139 [MainThread  ] [INFO ] Termination accuracy: 0.7958333492279053
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:32,153 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:38,642 [MainThread  ] [INFO ] Epoch 0; Train loss 30.3087; Val loss 98.2918
+2022-06-02 23:44:38,642 [MainThread  ] [INFO ] Epoch 0; Train loss 30.3087; Val loss 98.2918
+2022-06-02 23:44:38,642 [MainThread  ] [INFO ] Epoch 0; Train loss 30.3087; Val loss 98.2918
+2022-06-02 23:44:38,642 [MainThread  ] [INFO ] Epoch 0; Train loss 30.3087; Val loss 98.2918
+2022-06-02 23:44:38,642 [MainThread  ] [INFO ] Epoch 0; Train loss 30.3087; Val loss 98.2918
+2022-06-02 23:44:45,228 [MainThread  ] [INFO ] Epoch 1; Train loss 3.7693; Val loss 93.7510
+2022-06-02 23:44:45,228 [MainThread  ] [INFO ] Epoch 1; Train loss 3.7693; Val loss 93.7510
+2022-06-02 23:44:45,228 [MainThread  ] [INFO ] Epoch 1; Train loss 3.7693; Val loss 93.7510
+2022-06-02 23:44:45,228 [MainThread  ] [INFO ] Epoch 1; Train loss 3.7693; Val loss 93.7510
+2022-06-02 23:44:45,228 [MainThread  ] [INFO ] Epoch 1; Train loss 3.7693; Val loss 93.7510
+2022-06-02 23:44:45,473 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:45,473 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:45,473 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:45,473 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:45,473 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:48,336 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:48,336 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:48,336 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:48,336 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:48,336 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:48,337 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:48,338 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:48,338 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:48,338 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:48,338 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:48,338 [MainThread  ] [INFO ] Test
+2022-06-02 23:44:51,454 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:51,454 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:51,454 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:51,454 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:51,454 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.9011905193328857
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 4.113640785217285
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:51,455 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.5419975519180298
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6241883635520935
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:51,456 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,474 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:44:51,475 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:45:02,860 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:45:02,860 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:45:09,139 [MainThread  ] [INFO ] Epoch 0; Train loss 15.9418; Val loss 147.9441
+2022-06-02 23:45:15,579 [MainThread  ] [INFO ] Epoch 1; Train loss 5.9983; Val loss 69.7889
+2022-06-02 23:45:15,905 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:18,833 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.1996212005615234
+2022-06-02 23:45:18,833 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.8771278858184814
+2022-06-02 23:45:18,834 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.3349496126174927
+2022-06-02 23:45:18,834 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11634982377290726
+2022-06-02 23:45:18,834 [MainThread  ] [INFO ] Termination accuracy: 0.7881668210029602
+2022-06-02 23:45:18,834 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:21,624 [MainThread  ] [INFO ] BellmanFord: mean squared error: 3.1996212005615234
+2022-06-02 23:45:21,624 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 3.8771278858184814
+2022-06-02 23:45:21,624 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.3349496126174927
+2022-06-02 23:45:21,624 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.11634982377290726
+2022-06-02 23:45:21,624 [MainThread  ] [INFO ] Termination accuracy: 0.7881668210029602
+2022-06-02 23:45:21,638 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:45:21,638 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-06-02 23:45:21,638 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:45:21,638 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 2, 'lr': 0.0005, 'warmup': 0, 'earlystop': False, 'patience': 1, 'weightdecay': 5e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bf', 'batchsize': 10}
+2022-06-02 23:45:27,943 [MainThread  ] [INFO ] Epoch 0; Train loss 48.3293; Val loss 87.4291
+2022-06-02 23:45:27,943 [MainThread  ] [INFO ] Epoch 0; Train loss 48.3293; Val loss 87.4291
+2022-06-02 23:45:34,275 [MainThread  ] [INFO ] Epoch 1; Train loss 8.8691; Val loss 59.6696
+2022-06-02 23:45:34,275 [MainThread  ] [INFO ] Epoch 1; Train loss 8.8691; Val loss 59.6696
+2022-06-02 23:45:34,523 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:34,523 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:45:37,449 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:45:37,450 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:45:37,450 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:45:37,450 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:37,450 [MainThread  ] [INFO ] Test
+2022-06-02 23:45:40,306 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:45:40,306 [MainThread  ] [INFO ] BellmanFord: mean squared error: 2.281738519668579
+2022-06-02 23:45:40,316 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:45:40,316 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 1.6442344188690186
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6146541237831116
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6644421219825745
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:45:40,317 [MainThread  ] [INFO ] Termination accuracy: 0.6079999804496765
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: mean squared error: 2.7406797409057617
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: mean squared error: 2.7406797409057617
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: last step mean squared error: 2.76068115234375
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: last step mean squared error: 2.76068115234375
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: predecessors mean step accuracy: 0.4748018682003021
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: predecessors mean step accuracy: 0.4748018682003021
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: predecessors last step accuracy: 0.39039596915245056
+2022-06-02 23:45:40,318 [MainThread  ] [INFO ] average BellmanFord: predecessors last step accuracy: 0.39039596915245056
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average Termination accuracy: 0.6980834007263184
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average Termination accuracy: 0.6980834007263184
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: mean squared error: 2.7406797409057617
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: mean squared error: 2.7406797409057617
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: last step mean squared error: 2.76068115234375
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: last step mean squared error: 2.76068115234375
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: predecessors mean step accuracy: 0.4748018682003021
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: predecessors mean step accuracy: 0.4748018682003021
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: predecessors last step accuracy: 0.39039596915245056
+2022-06-02 23:45:40,319 [MainThread  ] [INFO ] average BellmanFord: predecessors last step accuracy: 0.39039596915245056
+2022-06-02 23:45:40,320 [MainThread  ] [INFO ] average Termination accuracy: 0.6980834007263184
+2022-06-02 23:45:40,320 [MainThread  ] [INFO ] average Termination accuracy: 0.6980834007263184

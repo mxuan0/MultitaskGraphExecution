@@ -1,0 +1,54 @@
+2022-05-25 18:22:19,505 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-25 18:22:19,507 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'nf_bfs nf_bf', 'batchsize': 10}
+2022-05-25 18:22:19,890 [MainThread  ] [INFO ] Epoch 0; Train loss 14.7600; Val loss 166.5276
+2022-05-25 18:22:20,184 [MainThread  ] [INFO ] Epoch 1; Train loss 12.8607; Val loss 37.7082
+2022-05-25 18:22:20,478 [MainThread  ] [INFO ] Epoch 2; Train loss 6.9065; Val loss 34.9110
+2022-05-25 18:22:20,794 [MainThread  ] [INFO ] Epoch 3; Train loss 3.9160; Val loss 28.7815
+2022-05-25 18:22:21,153 [MainThread  ] [INFO ] Epoch 4; Train loss 3.8642; Val loss 11.4670
+2022-05-25 18:22:21,486 [MainThread  ] [INFO ] Epoch 5; Train loss 3.2821; Val loss 7.8761
+2022-05-25 18:22:21,821 [MainThread  ] [INFO ] Epoch 6; Train loss 2.6344; Val loss 8.0725
+2022-05-25 18:22:21,821 [MainThread  ] [INFO ] Early stopping criterion satisfied
+2022-05-26 13:36:54,887 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-26 13:36:54,888 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'nf_bfs nf_bf', 'batchsize': 10}
+2022-05-26 13:37:02,817 [MainThread  ] [INFO ] Epoch 0; Train loss 8.4073; Val loss 15.5300
+2022-05-26 13:37:10,739 [MainThread  ] [INFO ] Epoch 1; Train loss 6.1104; Val loss 13.4364
+2022-05-26 13:37:18,653 [MainThread  ] [INFO ] Epoch 2; Train loss 6.4191; Val loss 12.2039
+2022-05-26 13:37:26,632 [MainThread  ] [INFO ] Epoch 3; Train loss 4.9027; Val loss 10.7492
+2022-05-26 13:37:34,478 [MainThread  ] [INFO ] Epoch 4; Train loss 6.8820; Val loss 10.9997
+2022-05-26 13:37:34,478 [MainThread  ] [INFO ] Early stopping criterion satisfied
+2022-05-26 13:46:53,394 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-26 13:46:53,395 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf', 'batchsize': 10}
+2022-05-26 13:47:01,103 [MainThread  ] [INFO ] Epoch 0; Train loss 32.9922; Val loss 30.6799
+2022-05-26 13:47:08,682 [MainThread  ] [INFO ] Epoch 1; Train loss 11.3127; Val loss 23.5309
+2022-05-26 13:47:21,062 [MainThread  ] [INFO ] Epoch 2; Train loss 10.4105; Val loss 19.3834
+2022-05-26 13:47:29,416 [MainThread  ] [INFO ] Epoch 3; Train loss 20.9440; Val loss 16.3223
+2022-05-26 13:47:37,042 [MainThread  ] [INFO ] Epoch 4; Train loss 10.6504; Val loss 13.0952
+2022-05-26 13:47:44,711 [MainThread  ] [INFO ] Epoch 5; Train loss 3.3487; Val loss 9.7496
+2022-05-26 13:47:52,326 [MainThread  ] [INFO ] Epoch 6; Train loss 2.9185; Val loss 8.0864
+2022-05-26 13:48:00,004 [MainThread  ] [INFO ] Epoch 7; Train loss 3.2460; Val loss 7.8212
+2022-05-26 13:48:07,687 [MainThread  ] [INFO ] Epoch 8; Train loss 5.9296; Val loss 8.2185
+2022-05-26 13:48:07,687 [MainThread  ] [INFO ] Early stopping criterion satisfied
+2022-05-26 13:48:07,705 [MainThread  ] [INFO ] Test
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BFS: reachability mean step accuracy: 0.7749696373939514
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BFS: reachability last step accuracy: 0.9885000586509705
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BFS: termination accuracy: 0.7715476155281067
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BellmanFord: mean squared error: 7.580266952514648
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 13.896590232849121
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.7886379957199097
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.6936666965484619
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] Termination accuracy: 0.7715476155281067
+2022-05-26 13:48:09,506 [MainThread  ] [INFO ] Test
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BFS: reachability mean step accuracy: 0.7521387338638306
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BFS: reachability last step accuracy: 0.9975999593734741
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BFS: termination accuracy: 0.7053690552711487
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BellmanFord: mean squared error: 33.99671173095703
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BellmanFord: last step mean squared error: 104.99005889892578
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BellmanFord: predecessors mean step accuracy: 0.6974996328353882
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] BellmanFord: predecessors last step accuracy: 0.5335224270820618
+2022-05-26 13:48:43,869 [MainThread  ] [INFO ] Termination accuracy: 0.7053690552711487
+2022-05-26 13:57:34,478 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-26 13:57:34,479 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf', 'batchsize': 10}
+2022-05-26 14:25:24,552 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-26 14:25:24,553 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf widestpar', 'batchsize': 10}
+2022-05-26 21:22:22,851 [MainThread  ] [INFO ] Starting training with the following parameters:
+2022-05-26 21:22:22,851 [MainThread  ] [INFO ] {'optimizer': 'adam', 'epochs': 10, 'lr': 0.0001, 'warmup': 0, 'earlystop': True, 'patience': 1, 'weightdecay': 1e-05, 'schedpatience': 0, 'tempinit': 1.0, 'temprate': 1.0, 'tempmin': 1.0, 'earlytol': 5e-06, 'ksamples': 1, 'task': 'bfs bf widestpar', 'batchsize': 10}

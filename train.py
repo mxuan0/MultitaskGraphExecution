@@ -241,8 +241,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
                                          tolerance=early_tol
                                          )
     
-    #if setting != '1BF+1BFS': 
-        #logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
+    if setting != '1BF+1BFS': 
+        logit = torch.tensor([len(data_stream[task].dataset) for task in task_list])
+    
     val_loss = 0
     warmup_steps_done = 0
     inner_optimizer_state = None
@@ -250,6 +251,9 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
    
    
     
+    inner_optimizer_state = None 
+
+    #train_traj = {t:[] for t in task_list}
     train_traj = []
     val_traj = {t:[] for t in task_list}
     
@@ -272,7 +276,6 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
        
         ##for p in model.parameters(): 
         #optimizer.add_param_group({'params': model.parameters()})
-
 
         model_copy.train()
         for i in range(K):
@@ -321,6 +324,8 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
 
 
         inner_optimizer_state = optimizer.state_dict() 
+
+        inner_optimizer_state = optimizer.state_dict()
 
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
