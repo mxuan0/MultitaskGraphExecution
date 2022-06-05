@@ -366,11 +366,11 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
         temp = max(temp * temprate, tempmin)
         model.temp = temp
 
-    if setting == '1BF+1BFS':
-        np.save(f'Data/train_{setting}_{ngraph}.npy', train_traj)
-        np.save(f'Data/val_{setting}_{ngraph}.npy', val_traj)
-    else:
-        np.save(f'Data/train_{setting}_{ngraph[0]}_{ngraph[1]}.npy', train_traj)
-        np.save(f'Data/val_{setting}_{ngraph[0]}_{ngraph[1]}.npy', val_traj)
+    # if setting == '1BF+1BFS':
+    #     np.save(f'Data/train_{setting}_{ngraph}.npy', train_traj)
+    #     np.save(f'Data/val_{setting}_{ngraph}.npy', val_traj)
+    # else:
+    #     np.save(f'Data/train_{setting}_{ngraph[0]}_{ngraph[1]}.npy', train_traj)
+    #     np.save(f'Data/val_{setting}_{ngraph[0]}_{ngraph[1]}.npy', val_traj)
 
     return model.state_dict(), val_loss

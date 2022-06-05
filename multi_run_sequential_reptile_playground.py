@@ -37,14 +37,6 @@ ngraph_test = ['200', '200']
 nnode = '20'
 nnode_test = ['20', '50']
 
-# rand_gen = torch.distributions.Uniform(0.0, 1.0)
-# gen_erdos_renyi_algo_results(rand_gen, '5000', nnode, algo_names, 'Data/train')
-# gen_erdos_renyi_algo_results(rand_gen, ngraph_val, nnode, algo_names, 'Data/val')
-# for i in range(len(nnode_test)):
-#     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
-
-# exit()
-
 device = 'cpu'
 latentdim = 32
 encdim = 32
@@ -95,7 +87,7 @@ train_params['alpha'] = 5e-4
 # run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
 logger = _logger(logfile='Data/seq_reptile.log')
 mean_results = []
-steps = 2
+steps = 10
 for i in range(steps):
     metadata = info(logger, algo_names)
     model = arch.NeuralExecutor3_(device,
