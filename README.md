@@ -13,13 +13,13 @@ training and evaluation for different baselines.
 get train, val, test dataloader for different baselines.
 
 #### logger.py
-get logger
+get experiment logger.
 
 #### playground.py
-define training parameters; call get_stream and baseline.
-
+define training parameters; call get_stream and baseline, example training parameter settings can be found here.
 
 ## Running 
+0. Prepare data by first generating graphs with gen_\[graph name] functions in datagen/graphgen.py and generate execution trajectories of each algorithm with gen_multi_algo_data in datagen/algorithm.py
 1. Instantiate model from model.py
 2. Setup data streams for training, validation, and testing using either `multi_stream` or `seq_reptile_stream` from `get_streams.py` 
 3. Train model with `run_multi` (Neural Executor baseline) or `train_seq_reptile` from `train.py`
