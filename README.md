@@ -14,7 +14,7 @@ get train, val, test dataloader for different baselines.
 get logger
 
 #### playground.py
-define trainning parameters; call get_stream and baseline.
+define training parameters; call get_stream and baseline.
 
 
 ## Running 
