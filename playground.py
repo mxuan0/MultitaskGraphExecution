@@ -1,7 +1,10 @@
 from calendar import c
 from datagen.algorithms import info, gen_multi_algo_data
 from datagen.graphgen import gen_erdos_renyi, gen_barabasi_albert, gen_twod_grid
-import torch, pdb, logging, sys
+import torch
+import pdb
+import logging
+import sys
 from loss import LossAssembler, create_loss_class
 import model as arch
 import initialisation as init
@@ -12,6 +15,8 @@ from tqdm import tqdm
 from baselines import run_multi, run_seq_reptile
 from logger import _logger
 from get_streams import multi_stream, seq_reptile_stream
+from itertools import product
+import numpy as np
 torch.manual_seed(10)
 
 # def gen_erdos_renyi_algo_results(rand_generator, num_graph, num_node, task_list, datasavefp='Data/', directed=False):
@@ -27,9 +32,9 @@ torch.manual_seed(10)
 
 task = 'bfs bf'
 algo_names = ['bfs', 'bf']
-task_list = ['bfs', 'bf'] # or noalgo_?
+task_list = ['bfs', 'bf']  # or noalgo_?
 
-ngraph_train = ['100','2000']
+ngraph_train_list = ['100', '1000']  # ['100','2000']
 ngraph_val = '100'
 ngraph_test = ['200', '200']
 
@@ -42,70 +47,92 @@ rand_gen = torch.distributions.Uniform(0.0, 1.0)
 # for i in range(len(nnode_test)):
 #     gen_erdos_renyi_algo_results(rand_gen, ngraph_test[i], nnode_test[i], algo_names, 'Data/test')
 
-      
-                    
-device = 'cpu'
+
+device = 'cuda'
 latentdim = 32
-encdim = 32 
+encdim = 32
 noisedim = 0
 
-train_params = {}
-train_params['optimizer'] = 'adam'
-train_params['epochs'] = 50
-train_params['lr'] = 1
-train_params['warmup'] = 0
-train_params['earlystop'] = False
-train_params['patience'] = 2
-train_params['weightdecay'] = 0.00001
-train_params['schedpatience'] = 0
-train_params['tempinit'] = 1.0
-train_params['temprate'] = 1.0
-train_params['tempmin'] = 1.0
-train_params['earlytol'] = 1e-4
-train_params['ksamples'] = 1
-train_params['task'] = task
-train_params['batchsize'] = 50
+lr_vals = [1e-2]
+weightdecay_vals = [0.00001]
+for ngraph_train in ngraph_train_list:
+    mean_results = []
+    steps = 1
+    param_product = list(product(lr_vals, weightdecay_vals))
+    print(f"Hyperparameter combinations: {param_product}")
+    for (lr, weightdecay) in param_product:
+        train_params = {}
+        train_params['optimizer'] = 'adam'
+        train_params['epochs'] = 300
+        train_params['lr'] = lr
+        train_params['warmup'] = 0
+        train_params['earlystop'] = False
+        train_params['patience'] = 2  # na
+        train_params['weightdecay'] = weightdecay
+        train_params['schedpatience'] = 0  # na
+        train_params['tempinit'] = 1.0
+        train_params['temprate'] = 1.0
+        train_params['tempmin'] = 1.0
+        train_params['earlytol'] = 1e-4
+        train_params['ksamples'] = 1
+        train_params['task'] = task
+        train_params['batchsize'] = 50
 
-#for adaptive scheduling
-train_params['exponent'] = 1.0
+        # for adaptive scheduling
+        train_params['exponent'] = 1.0
 
-#for seq reptile 
-train_params['K'] = 1
-train_params['alpha'] = 1e-4
+        # for seq reptile
+        train_params['K'] = 1
+        train_params['alpha'] = 1e-4
+        for i in range(steps):
+            logger = _logger(logfile='Data/multi.log')
+            metadata = info(logger, algo_names)
+            model = arch.NeuralExecutor3(device,
+                                         metadata['nodedim'],
+                                         metadata['edgedim'],
+                                         latentdim,
+                                         encdim,
+                                         pred=metadata['pred'],
+                                         noise=noisedim
+                                         )
 
+            train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val,
+                                                                 nnode, logger, algo_names,
+                                                                 ngraph_test, nnode_test,
+                                                                 batchsize=train_params['batchsize'])
 
-# logger = _logger(logfile='Data/multi.log')
+            res = run_multi(model, logger, task_list, train_stream, val_stream,
+                            train_params, test_stream, device='cuda')
+
+            mean_results.append(res)
+        #results_arr = np.array(mean_results, dtype=object)
+
+        results_arr = np.array(mean_results)
+        average_arr = np.average(results_arr, axis=0)
+
+        test_size = len(nnode_test)
+        metrics = [m for t in task_list for m in ev.get_metrics(t)]
+        metrics_len = len(metrics)
+
+        for i in range(test_size):
+            # print("averaging on testset " + i)
+            for ith, metric in enumerate(metrics):
+                logger.info("average " + metric +
+                            ": {}".format(average_arr[i][ith]))
+                print("average " + metric + ": {}".format(average_arr[i][ith]))
+# logger = _logger(logfile='Data/seq_reptile.log')
 # metadata = info(logger, algo_names)
-# model = arch.NeuralExecutor3(device,
+# model = arch.NeuralExecutor3_(device,
 #                               metadata['nodedim'],
 #                               metadata['edgedim'],
 #                               latentdim,
 #                               encdim,
+#                               algo_names,
 #                               pred=metadata['pred'],
 #                               noise=noisedim
 #                               )
 
-# train_stream, val_stream, test_stream = multi_stream(ngraph_train, ngraph_val, 
-#                                                     nnode, logger, algo_names,
-#                                                     ngraph_test, nnode_test, 
-#                                                     batchsize=train_params['batchsize'])
+# train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
+#                  ngraph_test, nnode_test, batchsize=train_params['batchsize'])
 
-# run_multi(model, logger, task_list, train_stream, val_stream, train_params, test_stream, device='cpu')
-
-
-logger = _logger(logfile='Data/seq_reptile.log')
-metadata = info(logger, algo_names)
-model = arch.NeuralExecutor3_(device,
-                              metadata['nodedim'],
-                              metadata['edgedim'],
-                              latentdim,
-                              encdim,
-                              algo_names,
-                              pred=metadata['pred'],
-                              noise=noisedim
-                              )
-
-train_stream, val_stream, test_stream = seq_reptile_stream(ngraph_train, ngraph_val, nnode, logger, algo_names,
-                 ngraph_test, nnode_test, batchsize=train_params['batchsize'])
-
-run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)
+# run_seq_reptile(model, logger, task_list, train_stream, val_stream, train_params, test_stream)

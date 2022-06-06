@@ -3,7 +3,7 @@ from train import train, train_seq_reptile
 import evaluate as ev
 import pdb
 def run_multi(model, logger, task_list, train_stream, 
-              val_stream, train_params, test_stream, device='cpu'):
+              val_stream, train_params, test_stream, device='cuda'):
     algos = []
     for task in task_list:
         algos.append(
@@ -23,13 +23,14 @@ def run_multi(model, logger, task_list, train_stream,
                                     )
 
     metrics = [m for t in task_list for m in ev.get_metrics(t)]
-    ev.evaluate(logger,
+    res = ev.evaluate(logger,
                 device,
                 test_stream,
                 model,
                 loss_module,
                 metrics
                 )
+    return res
 
 def run_seq_reptile(model, logger, task_list, train_stream, val_stream, 
                     train_params, test_stream, device='cpu'):
