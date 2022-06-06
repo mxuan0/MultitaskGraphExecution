@@ -9,7 +9,7 @@ __pycache__/
 *.xml
 *.iml
 *.idea
-*.pkl
+#*.pkl
 *.pt
 
 lightning_logs/

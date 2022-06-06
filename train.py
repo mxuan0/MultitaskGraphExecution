@@ -241,6 +241,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
     
     inner_optimizer_state = None 
 
+    #train_traj = {t:[] for t in task_list}
     train_traj = []
     val_traj = {t:[] for t in task_list}
     for epoch in tqdm(range(epochs)):
@@ -293,7 +294,7 @@ def train_seq_reptile(logger, device, data_stream, val_stream, model,
             optimizer.step()
 
         inner_optimizer_state = optimizer.state_dict()
-        
+
         with torch.no_grad():
             for p, q in zip(model.parameters(), model_copy.parameters()):
                 p -= lr * (p - q)
