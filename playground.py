@@ -34,7 +34,7 @@ task = 'bfs bf'
 algo_names = ['bfs', 'bf']
 task_list = ['bfs', 'bf']  # or noalgo_?
 
-ngraph_train_list = ['100', '1000']  # ['100','2000']
+ngraph_train_list = ['1000']  # ['100','1000']
 ngraph_val = '100'
 ngraph_test = ['200', '200']
 
@@ -57,13 +57,13 @@ lr_vals = [1e-2]
 weightdecay_vals = [0.00001]
 for ngraph_train in ngraph_train_list:
     mean_results = []
-    steps = 1
+    steps = 7
     param_product = list(product(lr_vals, weightdecay_vals))
     print(f"Hyperparameter combinations: {param_product}")
     for (lr, weightdecay) in param_product:
         train_params = {}
         train_params['optimizer'] = 'adam'
-        train_params['epochs'] = 300
+        train_params['epochs'] = 100
         train_params['lr'] = lr
         train_params['warmup'] = 0
         train_params['earlystop'] = False
