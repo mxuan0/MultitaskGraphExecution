@@ -1,5 +1,6 @@
-import numpy
+import numpy as np
 import torch
+
 
 def get_metrics(task_name):
     if task_name == 'noalgo_bfs':
@@ -41,25 +42,30 @@ def get_metrics(task_name):
     else:
         raise NotImplementedError
 
+
 def noalgo_bfs_metrics():
     return ['BFS: reachability last step accuracy',
             ]
+
 
 def noalgo_bf_metrics():
     return ['BellmanFord: last step mean squared error',
             'BellmanFord: predecessors last step accuracy',
             ]
 
+
 def noalgo_widestpar_metrics():
     return ['Widest (parallel): last step mean squared error',
             'Widest (parallel): predecessors last step accuracy',
             ]
+
 
 def bfs_metrics():
     return ['BFS: reachability mean step accuracy',
             'BFS: reachability last step accuracy',
             'BFS: termination accuracy',
             ]
+
 
 def bf_metrics():
     return ['BellmanFord: mean squared error',
@@ -69,6 +75,7 @@ def bf_metrics():
             'Termination accuracy',
             ]
 
+
 def widestpar_metrics():
     return ['Widest (parallel): mean squared error',
             'Widest (parallel): last step mean squared error',
@@ -76,6 +83,7 @@ def widestpar_metrics():
             'Widest (parallel): predecessors last step accuracy',
             'Termination accuracy',
             ]
+
 
 def prims_metrics():
     return ['Prims: next MST node mean accuracy',
@@ -87,11 +95,13 @@ def prims_metrics():
             'Termination accuracy',
             ]
 
+
 def noalgo_prims_metrics():
     return ['Prims: state last accuracy',
             'Prims: key last accuracy',
             'Prims: predecessors MST last accuracy',
             ]
+
 
 def dijkstra_metrics():
     return ['Dijkstra: next MST node mean accuracy',
@@ -103,6 +113,7 @@ def dijkstra_metrics():
             'Termination accuracy',
             ]
 
+
 def widest_metrics():
     return ['Widest path: next MST node mean accuracy',
             'Widest path: key mean accuracy',
@@ -112,6 +123,7 @@ def widest_metrics():
             'Widest path: predecessors MST last accuracy',
             'Termination accuracy',
             ]
+
 
 def mostrelseq_metrics():
     return ['Most reliable path: next MST node mean accuracy',
@@ -123,6 +135,7 @@ def mostrelseq_metrics():
             'Termination accuracy',
             ]
 
+
 def mostrelpar_metrics():
     return ['Most reliable path (parallel): mean squared error',
             'Most reliable path (parallel): last step mean squared error',
@@ -131,10 +144,12 @@ def mostrelpar_metrics():
             'Termination accuracy',
             ]
 
+
 def noalgo_mostrelpar_metrics():
     return ['Most reliable path (parallel): last step mean squared error',
             'Most reliable path (parallel): predecessors last step accuracy',
             ]
+
 
 def noalgo_mostrelseq_metrics():
     return ['Most reliable path: state last accuracy',
@@ -142,17 +157,20 @@ def noalgo_mostrelseq_metrics():
             'Most reliable path: predecessors MST last accuracy',
             ]
 
+
 def noalgo_widest_metrics():
     return ['Widest path: state last accuracy',
             'Widest path: key last accuracy',
             'Widest path: predecessors MST last accuracy',
             ]
 
+
 def noalgo_dijkstra_metrics():
     return ['Dijkstra: state last accuracy',
             'Dijkstra: key last accuracy',
             'Dijkstra: predecessors MST last accuracy',
             ]
+
 
 def dfs_metrics():
     return ['DFS: next MST node mean accuracy',
@@ -164,30 +182,37 @@ def dfs_metrics():
             'Termination accuracy',
             ]
 
+
 def noalgo_dfs_metrics():
     return ['DFS: state last accuracy',
             'DFS: key last accuracy',
             'DFS: predecessors MST last accuracy',
             ]
 
+
 def evaluate(logger, device, test_stream, model, loss_mod, metrics):
     """
     test_streams: list of datastreams, they expected to be an IterableDataset]
     batch_size: how many graphs to accumulate to a batch"""
+    res = []
     with torch.no_grad():
         for stream in test_stream:
             logger.info(stream.dataset.name)
             ngraphs_total = len(stream.dataset)
             total_test_acc = [0 for _ in metrics]
             for batch in stream:
-                batch_test_acc = loss_mod.test_loss(logger, device, model, batch)
-                total_test_acc = [cum + btl for cum, btl in zip(total_test_acc, batch_test_acc)]
-            mean_test_acc = [metric/ngraphs_total for metric in total_test_acc]
-
+                batch_test_acc = loss_mod.test_loss(
+                    logger, device, model, batch)
+                total_test_acc = [cum + btl for cum,
+                                  btl in zip(total_test_acc, batch_test_acc)]
+            mean_test_acc = [metric.detach().cpu().item(
+            )/ngraphs_total for metric in total_test_acc]
+            res.append(np.array(mean_test_acc))
             for ith, metric in enumerate(metrics):
                 logger.info(metric+": {}".format(mean_test_acc[ith]))
 
-    return
+    return res
+
 
 def evaluate_single_algo(logger, device, test_stream, model, loss_mod_dict, metrics):
     """
@@ -201,9 +226,12 @@ def evaluate_single_algo(logger, device, test_stream, model, loss_mod_dict, metr
                 ngraphs_total = len(stream.dataset)
                 total_test_acc = [0 for _ in metrics[algo]]
                 for batch in stream:
-                    batch_test_acc = loss_mod_dict[algo].test_loss(logger, device, model, batch, algo)
-                    total_test_acc = [cum + btl for cum, btl in zip(total_test_acc, batch_test_acc)]
-                mean_test_acc = [metric/ngraphs_total for metric in total_test_acc]
+                    batch_test_acc = loss_mod_dict[algo].test_loss(
+                        logger, device, model, batch, algo)
+                    total_test_acc = [cum + btl for cum,
+                                      btl in zip(total_test_acc, batch_test_acc)]
+                mean_test_acc = [
+                    metric/ngraphs_total for metric in total_test_acc]
 
                 for ith, metric in enumerate(metrics[algo]):
                     logger.info(metric+": {}".format(mean_test_acc[ith]))
