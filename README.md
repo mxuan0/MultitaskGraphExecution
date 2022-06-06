@@ -4,6 +4,20 @@ We make use of a scheduling approach that has been shown to yield improved resul
 
 This repository is adapted from the source code for [How to transfer algorithmic reasoning knowledge to learn new algorithms?](https://arxiv.org/abs/2110.14056)
 
+## Environment setup
+1. create conda environment
+```
+conda create -n gne python=3.8
+```
+2. activate conda environment and install pytorch
+```
+conda activate gne
+conda install pytorch torchvision torchaudio -c pytorch
+```
+3. install other libs
+```
+pip install -r requirements.txt
+```
 ## Files
 
 #### baselines.py 
